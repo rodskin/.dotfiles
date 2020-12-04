@@ -13,3 +13,5 @@ git
 mycli
 
 
+https://github.com/ryanoasis/nerd-fonts#font-installation
+
