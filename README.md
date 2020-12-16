@@ -15,3 +15,5 @@ mycli
 
 https://github.com/ryanoasis/nerd-fonts#font-installation
 
+https://github.com/romkatv/powerlevel10k#manual
+
