@@ -1,0 +1,6 @@
+#!/bin/env bash
+
+coproc bluetoothctl
+echo -e 'connect FC:58:FA:70:78:CA\nexit' >&${COPROC[1]}
+output=$(cat <&${COPROC[0]})
+echo $output
