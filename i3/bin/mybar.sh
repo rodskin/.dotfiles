@@ -5,7 +5,7 @@
 #   status_command exec /home/you/.config/i3status/mybar.sh
 # }
 
-bg_bar_color="#282A36"
+bg_bar_color="#000000"
 
 # Print a left caret separator
 # @params {string} $1 text color, ex: "#FF0000"
@@ -49,7 +49,7 @@ mycrypto() {
 
 myip_public() {
   local bg="#1976D2"
-  separator $bg "#FFD180"
+  separator $bg $bg_bar_color
   echo -n ",{"
   echo -n "\"name\":\"ip_public\","
   echo -n "\"full_text\":\"  $(dig +short myip.opendns.com @208.67.220.220) \","
@@ -204,7 +204,7 @@ echo '[]'                   # We send an empty first array of blocks to make the
 (while :;
 do
 	echo -n ",["
-  mycrypto
+ #mycrypto
   myip_public
   myvpn_on
   myip_local
