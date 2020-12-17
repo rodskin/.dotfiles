@@ -11,6 +11,7 @@ vim
 gimp
 git
 mycli
+playerctl
 
 
 https://github.com/ryanoasis/nerd-fonts#font-installation

@@ -1,0 +1,1 @@
+alias bddpreprod="mycli -h 192.168.103.53 -u napalm -p'cocacola*666' -P 3307"
