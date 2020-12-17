@@ -159,6 +159,18 @@ battery0() {
     prct=$(cat /sys/class/power_supply/BAT0/uevent | grep "POWER_SUPPLY_CAPACITY=" | cut -d'=' -f2)
     charging=$(cat /sys/class/power_supply/BAT0/uevent | grep "POWER_SUPPLY_STATUS" | cut -d'=' -f2) # POWER_SUPPLY_STATUS=Discharging|Charging
     icon=""
+    if [ "$prct" -le 5 ]
+    then
+        icon=""
+    elif [ \( "$prct" -gt 5 -a "$prct" -le 25 \) ];then
+        icon=""
+    elif [ \( "$prct" -gt 25 -a "$prct" -le 50 \) ];then
+        icon=""
+    elif [ \( "$prct" -gt 50 -a "$prct" -le 75 \) ];then
+        icon=""
+    fi
+
+
     if [ "$charging" == "Charging" ]; then
       icon=""
     fi
