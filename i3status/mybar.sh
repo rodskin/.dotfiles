@@ -218,7 +218,7 @@ do
   systemupdate
   logout
   echo "]"
-	sleep 5 
+	sleep 10
 done) &
 
 # click events
@@ -261,4 +261,3 @@ do
 
   fi  
 done
-

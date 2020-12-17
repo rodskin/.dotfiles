@@ -1,7 +1,5 @@
 alias vi="nvim"
 alias ll="ls -alh"
-alias dev="cd $HOME/dev"
-alias devp="cd $HOME/dev/php"
 alias rm="rm -i"
     alias mv="mv -i"
     alias cp="cp -i"
