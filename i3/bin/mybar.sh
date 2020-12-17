@@ -35,6 +35,18 @@ common() {
   echo -n "\"border_right\":0"
 }
 
+myspotify() {
+  local bg="#1DB954"
+  separator $bg $bg_bar_color
+  echo -n ",{"
+  echo -n "\"name\":\"spotify\","
+  echo -n "\"full_text\":\"  $(~/.config/i3status/get_spotify) \","
+  echo -n "\"color\":\"#FFFFFF\","
+  echo -n "\"background\":\"$bg\","
+  common
+  echo -n "},"
+}
+
 mycrypto() {
   local bg="#FFD180"
   separator $bg $bg_bar_color
@@ -49,7 +61,7 @@ mycrypto() {
 
 myip_public() {
   local bg="#1976D2"
-  separator $bg $bg_bar_color
+  separator $bg "#1DB954"
   echo -n ",{"
   echo -n "\"name\":\"ip_public\","
   echo -n "\"full_text\":\"  $(dig +short myip.opendns.com @208.67.220.220) \","
@@ -206,6 +218,7 @@ echo '[]'                   # We send an empty first array of blocks to make the
 do
 	echo -n ",["
  #mycrypto
+  myspotify
   myip_public
   myvpn_on
   myip_local
