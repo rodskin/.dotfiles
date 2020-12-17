@@ -1,0 +1,2 @@
+alias vup="sudo wg-quick up ~/vpn/dbpn.conf"
+alias vdn="sudo wg-quick down ~/vpn/dbpn.conf"

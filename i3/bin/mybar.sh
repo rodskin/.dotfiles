@@ -61,7 +61,8 @@ myip_public() {
 myvpn_on() {
   local bg="#424242" # grey darken-3
   local icon=""
-  if [ -d /proc/sys/net/ipv4/conf/proton0 ]; then
+  vpn_status=`sudo wg`
+  if [ ! -z "$vpn_status" ]; then
     bg="#E53935" # rouge
     icon=""
   fi

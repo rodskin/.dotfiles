@@ -207,4 +207,4 @@ EOF
     }
 alias vimdiff='nvim -d'
 
-alias freevpn="sudo openvpn ~/fgilles_openvpn/config/client-vacuity-vlq16-iliad-fr.ovpn"
+alias freevpn="sudo openvpn ~/vpn/fgilles_openvpn/config/client-vacuity-vlq16-iliad-fr.ovpn"
