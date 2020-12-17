@@ -100,7 +100,7 @@ disk_usage() {
 memory() {
   echo -n ",{"
   echo -n "\"name\":\"id_memory\","
-  echo -n "\"full_text\":\"  $(~/.config/i3status/memory.py)%\","
+  echo -n "\"full_text\":\"  $(~/.config/i3status/memory.py)%\","
   echo -n "\"background\":\"#3949AB\","
   common
   echo -n "}"
@@ -109,7 +109,7 @@ memory() {
 cpu_usage() {
   echo -n ",{"
   echo -n "\"name\":\"id_cpu_usage\","
-  echo -n "\"full_text\":\"  $(~/.config/i3status/cpu.py)% \","
+  echo -n "\"full_text\":\"  $(~/.config/i3status/cpu.py)% \","
   echo -n "\"background\":\"#3949AB\","
   common
   echo -n "},"
