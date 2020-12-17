@@ -4,10 +4,10 @@ import json
 import urllib.request
 
 # sign in at https://openweathermap.org/api to get an API KEY
-APPID = "xxx"
+APPID = "7c4e62a7e3aabc62120b09bd020c47a2"
 
 # get you city ID at http://bulk.openweathermap.org/sample/
-CITYID = "2968815"
+CITYID = "2988507"
 
 # {
 #     "coord": {
