@@ -1,0 +1,4 @@
+alias screen100="xrandr --output eDP-1 --brightness 1.0"
+alias screen75="xrandr --output eDP-1 --brightness 0.75"
+alias screen50="xrandr --output eDP-1 --brightness 0.5"
+alias screen25="xrandr --output eDP-1 --brightness 0.25"

@@ -1,0 +1,2 @@
+alias pup="~/.dotfiles/i3/bin/punker_connect"
+alias pdn="~/.dotfiles/i3/bin/punker_disconnect"

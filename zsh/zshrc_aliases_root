@@ -2,3 +2,5 @@ source $HOME/.dotfiles/zsh/zshrc_aliases_folders
 source $HOME/.dotfiles/zsh/zshrc_aliases
 source $HOME/.dotfiles/zsh/zshrc_aliases_mysql
 source $HOME/.dotfiles/zsh/zshrc_aliases_vpn
+source $HOME/.dotfiles/zsh/zshrc_aliases_screen
+source $HOME/.dotfiles/zsh/zshrc_aliases_bluetooth

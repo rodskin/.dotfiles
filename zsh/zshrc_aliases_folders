@@ -1,4 +1,5 @@
 alias dev="cd $HOME/dev"
 alias devp="cd $HOME/dev/php"
+alias downloads="cd $HOME/Downloads"
 alias dotfiles="cd $HOME/.dotfiles"
 alias config="cd $HOME/.config"
