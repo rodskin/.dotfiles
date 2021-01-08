@@ -64,7 +64,7 @@ myip_public() {
   separator $bg "#1DB954"
   echo -n ",{"
   echo -n "\"name\":\"ip_public\","
-  echo -n "\"full_text\":\"  $(dig +short myip.opendns.com @208.67.220.220) \","
+  echo -n "\"full_text\":\"  $(dig +short myip.opendns.com @208.67.220.220) \","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "},"
