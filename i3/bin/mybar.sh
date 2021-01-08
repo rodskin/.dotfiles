@@ -113,7 +113,7 @@ disk_usage() {
 memory() {
   echo -n ",{"
   echo -n "\"name\":\"id_memory\","
-  echo -n "\"full_text\":\"  $(~/.config/i3status/memory.py)%\","
+  echo -n "\"full_text\":\"  $(~/.config/i3status/memory.py)%\","
   echo -n "\"background\":\"#3949AB\","
   common
   echo -n "}"
@@ -193,7 +193,7 @@ volume() {
   echo -n ",{"
   echo -n "\"name\":\"id_volume\","
   if [ $vol = "0%" ]; then
-    echo -n "\"full_text\":\"  ${vol} \","
+    echo -n "\"full_text\":\"  ${vol} \","
   else
     echo -n "\"full_text\":\"  ${vol} \","
   fi
@@ -208,7 +208,7 @@ systemupdate() {
   if (( $nb > 0)); then
     echo -n ",{"
     echo -n "\"name\":\"id_systemupdate\","
-    echo -n "\"full_text\":\"  ${nb}\""
+    echo -n "\"full_text\":\"  ${nb}\""
     echo -n "}"
   fi
 }

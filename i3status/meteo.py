@@ -57,17 +57,17 @@ with urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?id=
   str = " " + str(data['main']['temp']) + "°C "
   # https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
   if int(data['weather'][0]['id']) >= 200 and int(data['weather'][0]['id']) < 300: # Group 2xx: Thunderstorm
-    str += "" # yes, it's a thunder poo ;)
+    str += "" # yes, it's a thunder poo ;)
   elif int(data['weather'][0]['id']) >= 300 and int(data['weather'][0]['id']) < 500: # Group 3xx: Drizzle
-    str += ""
+    str += ""
   elif int(data['weather'][0]['id']) >= 500 and int(data['weather'][0]['id']) < 600: # Group 5xx: Rain
-    str += ""
+    str += ""
   elif int(data['weather'][0]['id']) >= 600 and int(data['weather'][0]['id']) < 700: # Group 6xx: Snow
     str += ""
   elif int(data['weather'][0]['id']) >= 700 and int(data['weather'][0]['id']) < 800: # Group 7xx: Atmosphere
-    str += ""
+    str += ""
   elif int(data['weather'][0]['id']) == 800: # Group 800: Clear
     str += ""
   elif int(data['weather'][0]['id']) > 800: # Group 80x: Clouds
-    str += ""
+    str += ""
   print(str, end='')
