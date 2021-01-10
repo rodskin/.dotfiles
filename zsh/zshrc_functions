@@ -28,3 +28,18 @@ function makegzip() { gzip -9 "${1%%/}"  "${1%%/}/"; }
 
 # Create a ZIP archive of a file or folder.
 function makezip() { zip -r "${1%%/}.zip" "$1" ; }
+
+function screen()
+{
+    if [ -z $1 -o $1 -eq 0 ]; then
+        echo "Spécifiez un entier entre 1 et 100"
+    else
+        if [ $1 -gt 0 -a $1 -le 100 ]; then
+            #calcul=$(($1 / 100 | bc ))
+            calcul=$(( $1/100. ))
+            xrandr --output eDP-1 --brightness $calcul
+        else
+            echo "Spécifiez un entier entre 1 et 100"
+        fi
+    fi
+}
