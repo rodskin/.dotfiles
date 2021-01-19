@@ -200,3 +200,4 @@ bindsym $mod+p exec --no-startup-id ~/.config/i3/bin/logout
 bindsym $mod+Shift+f exec --no-startup-id ~/.config/i3/bin/rofifinder
 #bindsym $mod+[ exec --no-startup-id ~/.config/i3/bin/punker_connect
 #bindsym $mod+] exec --no-startup-id ~/.config/i3/bin/punker_disconnect
+
