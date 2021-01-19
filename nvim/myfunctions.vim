@@ -8,3 +8,7 @@ function! ToggleNumber()
     endif
 endfunc
 let @x=':%s/</\r</g^M^[gg=G'
+
+function! NoNumbers()
+    set invnumber
+endfunc

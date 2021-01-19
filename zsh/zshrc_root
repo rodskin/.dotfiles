@@ -5,3 +5,4 @@ source $HOME/.dotfiles/zsh/zshrc_aliases
 source $HOME/.dotfiles/zsh/zshrc_aliases_mysql
 source $HOME/.dotfiles/zsh/zshrc_aliases_vpn
 source $HOME/.dotfiles/zsh/zshrc_aliases_bluetooth
+source $HOME/.dotfiles/zsh/zshrc_aliases_private

@@ -8,6 +8,7 @@ nnoremap gV `[v`]
 " open ag.vim
 nnoremap <leader>a :Ag
 nnoremap <leader>T :call ToggleNumber()
+nnoremap <leader>N :call NoNumbers()
 
 
 " NerdTree
