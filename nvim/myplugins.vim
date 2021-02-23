@@ -19,6 +19,7 @@ Plug 'preservim/nerdtree'
 Plug 'vim-syntastic/syntastic'
 Plug 'yegappan/mru'
 Plug 'chrisbra/SudoEdit.vim'
+Plug 'drmingdrmer/vim-tabbar'
 
 Plug 'ycm-core/YouCompleteMe'
 Plug 'ryanoasis/vim-devicons'
