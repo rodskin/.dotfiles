@@ -59,13 +59,31 @@ mycrypto() {
   echo -n "},"
 }
 
+mydocker() {
+    local bg="#424242"
+    local icon=""
+    docker_count=`docker ps -q $1 | wc -l`
+    if [ "$docker_count" -gt 0 ]; then
+        bg="#0DB7ED" # bleu
+    fi
+    separator $bg "#1DB954" 
+    bg_separator_previous=$bg
+    echo -n ",{"
+    echo -n "\"name\":\"id_docker\","      
+    echo -n "\"full_text\":\" ${icon} ${docker_count} \","
+    echo -n "\"background\":\"$bg\","
+    common
+    echo -n "},"
+}
+
 myip_public() {
-  local bg="#1976D2"
-  separator $bg "#1DB954"
+  local bg="#FFD300"
+  separator $bg $bg_separator_previous
   echo -n ",{"
   echo -n "\"name\":\"ip_public\","
   echo -n "\"full_text\":\"  $(dig +short myip.opendns.com @208.67.220.220) \","
   echo -n "\"background\":\"$bg\","
+  echo -n "\"color\":\"#000000\","
   common
   echo -n "},"
 }
@@ -78,7 +96,7 @@ myvpn_on() {
     bg="#E53935" # rouge
     icon=""
   fi
-  separator $bg "#1976D2" # background left previous block
+  separator $bg "#FFD300" # background left previous block
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"id_vpn\","      
@@ -144,7 +162,7 @@ mydate() {
   separator $bg "#546E7A"
   echo -n ",{"
   echo -n "\"name\":\"id_time\","
-  echo -n "\"full_text\":\"  $(date "+%a %d/%m %H:%M") \","
+  echo -n "\"full_text\":\"  $(date "+%d/%m %H:%M") \","
   echo -n "\"color\":\"#000000\","
   echo -n "\"background\":\"$bg\","
   common
@@ -199,8 +217,8 @@ volume() {
   fi
   echo -n "\"background\":\"$bg\","
   common
-  echo -n "},"
-  separator $bg_bar_color $bg
+  echo -n "}"
+  #separator $bg_bar_color $bg
 }
 
 systemupdate() {
@@ -231,6 +249,7 @@ do
 	echo -n ",["
  #mycrypto
   myspotify
+  mydocker
   myip_public
   myvpn_on
   myip_local
@@ -242,7 +261,7 @@ do
   battery0
   volume
   systemupdate
-  logout
+  #logout
   echo "]"
 	sleep 5 
 done) &
