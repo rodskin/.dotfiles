@@ -12,6 +12,7 @@ gimp
 git
 mycli
 playerctl
+autorandr
 
 
 https://github.com/ryanoasis/nerd-fonts#font-installation
