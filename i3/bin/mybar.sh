@@ -6,6 +6,32 @@
 # }
 
 bg_bar_color="#000000"
+bg_separator_previous="#000000"
+bg_inactive="#424242"
+
+#COLORS
+bg_spotify="#1DB954"
+color_spotify="#FFFFFF"
+bg_docker="#0DB7ED"
+color_docker="#FFFFFF"
+bg_vpn="#E53935"
+color_vpn="#FFFFFF"
+bg_crypto="#990099"
+color_crypto="#FFFFFF"
+bg_ip_external="#FFD300"
+color_ip_external="#000000"
+bg_ip_internal="#2E7D32"
+color_ip_internal="#FFFFFF"
+bg_disc_cpu_memory="#3949AB"
+color_disc_cpu_memory="#FFFFFF"
+bg_meteo="#546E7A"
+color_meteo="#FFFFFF"
+bg_date="#E0E0E0"
+color_date="#000000"
+bg_battery="#D69E2E"
+color_battery="#000000"
+bg_volume="#673AB7"
+color_volume="#FFFFFF"
 
 # Print a left caret separator
 # @params {string} $1 text color, ex: "#FF0000"
@@ -35,41 +61,55 @@ common() {
   echo -n "\"border_right\":0"
 }
 
-myspotify() {
-  local bg="#1DB954"
+first() {
+  local bg=$bg_bar_color
   separator $bg $bg_bar_color
+  bg_separator_previous=$bg
+  echo -n ",{"
+  echo -n "\"name\":\"first\","
+  echo -n "\"full_text\":\"\","
+  echo -n "\"background\":\"$bg\","
+  common
+  echo -n "},"
+}
+
+myspotify() {
+  local bg=$bg_spotify
+  separator $bg $bg_separator_previous
+  bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"spotify\","
   echo -n "\"full_text\":\"  $(~/.config/i3status/get_spotify) \","
-  echo -n "\"color\":\"#FFFFFF\","
+  echo -n "\"color\":\"$color_spotify\","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "},"
 }
 
 mydocker() {
-    local bg="#424242"
+    local bg=$bg_inactive
     local icon=""
     docker_count=`docker ps -q $1 | wc -l`
     if [ "$docker_count" -gt 0 ]; then
-        bg="#0DB7ED" # bleu
+        bg=$bg_docker
     fi
-    separator $bg "#1DB954" 
+    separator $bg $bg_separator_previous 
     bg_separator_previous=$bg
     echo -n ",{"
     echo -n "\"name\":\"id_docker\","      
     echo -n "\"full_text\":\" ${icon} ${docker_count} \","
+    echo -n "\"color\":\"$color_docker\","
     echo -n "\"background\":\"$bg\","
     common
     echo -n "},"
 }
 
 myvpn_on() {
-  local bg="#424242" # grey darken-3
+  local bg=$bg_inactive
   local icon=""
   vpn_status=`sudo wg`
   if [ ! -z "$vpn_status" ]; then
-    bg="#E53935" # rouge
+    bg=$bg_vpn
     icon=""
   fi
   separator $bg $bg_separator_previous # background left previous block
@@ -77,105 +117,118 @@ myvpn_on() {
   echo -n ",{"
   echo -n "\"name\":\"id_vpn\","      
   echo -n "\"full_text\":\" ${icon} VPN \","
+  echo -n "\"color\":\"$color_vpn\","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "},"
 }
 
 mycrypto() {
-  local bg="#000000"
+  local bg=$bg_crypto
   separator $bg $bg_separator_previous
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"id_crypto\","
   echo -n "\"full_text\":\" $(~/.config/i3status/crypto.py) \","
-  echo -n "\"color\":\"#FFFFFF\","
+  echo -n "\"color\":\"$color_crypto\","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "},"
 }
 
 myip_public() {
-  local bg="#FFD300"
+  local bg=$bg_ip_external
   separator $bg $bg_separator_previous
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"ip_public\","
   echo -n "\"full_text\":\"  $(dig +short myip.opendns.com @208.67.220.220) \","
+  echo -n "\"color\":\"$color_ip_external\","
   echo -n "\"background\":\"$bg\","
-  echo -n "\"color\":\"#000000\","
   common
   echo -n "},"
 }
 
 myip_local() {
-  local bg="#2E7D32" # vert
-  separator $bg $bg_separator_previous
+  local bg=$bg_ip_internal
+  separator $bg $bg_separator_previous # background left previous block
+  bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"ip_local\","
   echo -n "\"full_text\":\"  $(ip route get 1 | sed -n 's/.*src \([0-9.]\+\).*/\1/p') \","
+  echo -n "\"color\":\"$color_ip_internal\","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "},"
 }
 
 disk_usage() {
-  local bg="#3949AB"
-  separator $bg "#2E7D32"
+  local bg=$bg_disc_cpu_memory
+  separator $bg $bg_separator_previous # background left previous block
+  bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"id_disk_usage\","
   echo -n "\"full_text\":\"  $(~/.config/i3status/disk.py)%\","
+  echo -n "\"color\":\"$color_disc_cpu_memory\","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "}"
 }
 
 memory() {
+  local bg=$bg_disc_cpu_memory
   echo -n ",{"
   echo -n "\"name\":\"id_memory\","
   echo -n "\"full_text\":\"  $(~/.config/i3status/memory.py)%\","
-  echo -n "\"background\":\"#3949AB\","
+  echo -n "\"color\":\"$color_disc_cpu_memory\","
+  echo -n "\"background\":\"$bg\","
   common
   echo -n "}"
 }
 
 cpu_usage() {
+  local bg=$bg_disc_cpu_memory
   echo -n ",{"
   echo -n "\"name\":\"id_cpu_usage\","
   echo -n "\"full_text\":\"  $(~/.config/i3status/cpu.py)% \","
-  echo -n "\"background\":\"#3949AB\","
+  echo -n "\"color\":\"$color_disc_cpu_memory\","
+  echo -n "\"background\":\"$bg\","
   common
   echo -n "},"
 }
 
 meteo() {
-  local bg="#546E7A"
-  separator $bg "#3949AB"
+  local bg=$bg_meteo
+  separator $bg $bg_separator_previous # background left previous block
+  bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"id_meteo\","
   echo -n "\"full_text\":\" $(~/.config/i3status/meteo.py) \","
+  echo -n "\"color\":\"$color_meteo\","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "},"
 }
 
 mydate() {
-  local bg="#E0E0E0"
-  separator $bg "#546E7A"
+  local bg=$bg_date
+  separator $bg $bg_separator_previous # background left previous block
+  bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"id_time\","
   echo -n "\"full_text\":\"  $(date "+%d/%m %H:%M") \","
-  echo -n "\"color\":\"#000000\","
+  echo -n "\"color\":\"$color_date\","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "},"
 }
 
 battery0() {
+  local bg=$bg_battery
+  separator $bg $bg_separator_previous # background left previous block
+  bg_separator_previous=$bg
+
   if [ -f /sys/class/power_supply/BAT0/uevent ]; then
-    local bg="#D69E2E"
-    separator $bg "#E0E0E0"
-    bg_separator_previous=$bg
     prct=$(cat /sys/class/power_supply/BAT0/uevent | grep "POWER_SUPPLY_CAPACITY=" | cut -d'=' -f2)
     charging=$(cat /sys/class/power_supply/BAT0/uevent | grep "POWER_SUPPLY_STATUS" | cut -d'=' -f2) # POWER_SUPPLY_STATUS=Discharging|Charging
     icon=""
@@ -197,17 +250,15 @@ battery0() {
     echo -n ",{"
     echo -n "\"name\":\"battery0\","
     echo -n "\"full_text\":\" ${icon} ${prct}% \","
-    echo -n "\"color\":\"#000000\","
+    echo -n "\"color\":\"$color_battery\","
     echo -n "\"background\":\"$bg\","
     common
     echo -n "},"
-  else
-    bg_separator_previous="#E0E0E0"
   fi
 }
 
 volume() {
-  local bg="#673AB7"
+  local bg=$bg_volume
   separator $bg $bg_separator_previous  
   vol=$(amixer -D pulse get Master | awk -F 'Left:|[][]' 'BEGIN {RS=""}{ print $3 }')
   echo -n ",{"
@@ -217,6 +268,7 @@ volume() {
   else
     echo -n "\"full_text\":\"  ${vol} \","
   fi
+  echo -n "\"color\":\"$color_volume\","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "}"
@@ -249,6 +301,7 @@ echo '[]'                   # We send an empty first array of blocks to make the
 (while :;
 do
 	echo -n ",["
+  first
   myspotify
   mydocker
   myvpn_on
