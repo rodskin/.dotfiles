@@ -5,11 +5,13 @@
 #   status_command exec /home/you/.config/i3status/mybar.sh
 # }
 
+#source ~/.config/i3/bin/colors.sh
+#source ~/.config/i3/bin/icons.sh
+
 bg_bar_color="#000000"
 bg_separator_previous="#000000"
 bg_inactive="#424242"
 
-#COLORS
 bg_spotify="#1DB954"
 color_spotify="#FFFFFF"
 bg_docker="#0DB7ED"
@@ -32,6 +34,29 @@ bg_battery="#D69E2E"
 color_battery="#000000"
 bg_volume="#673AB7"
 color_volume="#FFFFFF"
+
+# ICONS
+icon_spotify=""
+icon_docker=""
+icon_vpn_off=""
+icon_vpn_on=""
+icon_crypto="₿"
+icon_ip_external=""
+icon_ip_internal=""
+icon_disc=""
+icon_memory=""
+icon_cpu=""
+icon_meteo=""
+icon_date=""
+icon_battery_100=""
+icon_battery_75=""
+icon_battery_50=""
+icon_battery_25=""
+icon_battery_0=""
+icon_battery_charging=""
+icon_volume_on=""
+icon_volume_off=""
+
 
 # Print a left caret separator
 # @params {string} $1 text color, ex: "#FF0000"
@@ -79,7 +104,7 @@ myspotify() {
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"spotify\","
-  echo -n "\"full_text\":\"  $(~/.config/i3status/get_spotify) \","
+  echo -n "\"full_text\":\" $icon_spotify $(~/.config/i3status/get_spotify) \","
   echo -n "\"color\":\"$color_spotify\","
   echo -n "\"background\":\"$bg\","
   common
@@ -88,7 +113,6 @@ myspotify() {
 
 mydocker() {
     local bg=$bg_inactive
-    local icon=""
     docker_count=`docker ps -q $1 | wc -l`
     if [ "$docker_count" -gt 0 ]; then
         bg=$bg_docker
@@ -97,7 +121,7 @@ mydocker() {
     bg_separator_previous=$bg
     echo -n ",{"
     echo -n "\"name\":\"id_docker\","      
-    echo -n "\"full_text\":\" ${icon} ${docker_count} \","
+    echo -n "\"full_text\":\" ${icon_docker} ${docker_count} \","
     echo -n "\"color\":\"$color_docker\","
     echo -n "\"background\":\"$bg\","
     common
@@ -106,11 +130,11 @@ mydocker() {
 
 myvpn_on() {
   local bg=$bg_inactive
-  local icon=""
+  local icon=$icon_vpn_off
   vpn_status=`sudo wg`
   if [ ! -z "$vpn_status" ]; then
     bg=$bg_vpn
-    icon=""
+    icon=$icon_vpn_on
   fi
   separator $bg $bg_separator_previous # background left previous block
   bg_separator_previous=$bg
@@ -129,7 +153,7 @@ mycrypto() {
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"id_crypto\","
-  echo -n "\"full_text\":\" $(~/.config/i3status/crypto.py) \","
+  echo -n "\"full_text\":\" $icon_crypto $(~/.config/i3status/crypto.py) \","
   echo -n "\"color\":\"$color_crypto\","
   echo -n "\"background\":\"$bg\","
   common
@@ -142,7 +166,7 @@ myip_public() {
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"ip_public\","
-  echo -n "\"full_text\":\"  $(dig +short myip.opendns.com @208.67.220.220) \","
+  echo -n "\"full_text\":\" $icon_ip_external $(dig +short myip.opendns.com @208.67.220.220) \","
   echo -n "\"color\":\"$color_ip_external\","
   echo -n "\"background\":\"$bg\","
   common
@@ -155,7 +179,7 @@ myip_local() {
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"ip_local\","
-  echo -n "\"full_text\":\"  $(ip route get 1 | sed -n 's/.*src \([0-9.]\+\).*/\1/p') \","
+  echo -n "\"full_text\":\" $icon_ip_internal $(ip route get 1 | sed -n 's/.*src \([0-9.]\+\).*/\1/p') \","
   echo -n "\"color\":\"$color_ip_internal\","
   echo -n "\"background\":\"$bg\","
   common
@@ -168,7 +192,7 @@ disk_usage() {
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"id_disk_usage\","
-  echo -n "\"full_text\":\"  $(~/.config/i3status/disk.py)%\","
+  echo -n "\"full_text\":\" $icon_disc $(~/.config/i3status/disk.py)%\","
   echo -n "\"color\":\"$color_disc_cpu_memory\","
   echo -n "\"background\":\"$bg\","
   common
@@ -179,7 +203,7 @@ memory() {
   local bg=$bg_disc_cpu_memory
   echo -n ",{"
   echo -n "\"name\":\"id_memory\","
-  echo -n "\"full_text\":\"  $(~/.config/i3status/memory.py)%\","
+  echo -n "\"full_text\":\" $icon_memory $(~/.config/i3status/memory.py)%\","
   echo -n "\"color\":\"$color_disc_cpu_memory\","
   echo -n "\"background\":\"$bg\","
   common
@@ -190,7 +214,7 @@ cpu_usage() {
   local bg=$bg_disc_cpu_memory
   echo -n ",{"
   echo -n "\"name\":\"id_cpu_usage\","
-  echo -n "\"full_text\":\"  $(~/.config/i3status/cpu.py)% \","
+  echo -n "\"full_text\":\" $icon_cpu $(~/.config/i3status/cpu.py)% \","
   echo -n "\"color\":\"$color_disc_cpu_memory\","
   echo -n "\"background\":\"$bg\","
   common
@@ -203,7 +227,7 @@ meteo() {
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"id_meteo\","
-  echo -n "\"full_text\":\" $(~/.config/i3status/meteo.py) \","
+  echo -n "\"full_text\":\" $icon_meteo $(~/.config/i3status/meteo.py) \","
   echo -n "\"color\":\"$color_meteo\","
   echo -n "\"background\":\"$bg\","
   common
@@ -216,7 +240,7 @@ mydate() {
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"id_time\","
-  echo -n "\"full_text\":\"  $(date "+%d/%m %H:%M") \","
+  echo -n "\"full_text\":\" $icon_date $(date "+%d/%m %H:%M") \","
   echo -n "\"color\":\"$color_date\","
   echo -n "\"background\":\"$bg\","
   common
@@ -231,21 +255,21 @@ battery0() {
   if [ -f /sys/class/power_supply/BAT0/uevent ]; then
     prct=$(cat /sys/class/power_supply/BAT0/uevent | grep "POWER_SUPPLY_CAPACITY=" | cut -d'=' -f2)
     charging=$(cat /sys/class/power_supply/BAT0/uevent | grep "POWER_SUPPLY_STATUS" | cut -d'=' -f2) # POWER_SUPPLY_STATUS=Discharging|Charging
-    icon=""
+    icon=$icon_battery_100
     if [ "$prct" -le 5 ]
     then
-        icon=""
+        icon=$icon_battery_0
     elif [ \( "$prct" -gt 5 -a "$prct" -le 25 \) ];then
-        icon=""
+        icon=$icon_battery_25
     elif [ \( "$prct" -gt 25 -a "$prct" -le 50 \) ];then
-        icon=""
+        icon=$icon_battery_50
     elif [ \( "$prct" -gt 50 -a "$prct" -le 75 \) ];then
-        icon=""
+        icon=$icon_battery_75
     fi
 
 
     if [ "$charging" == "Charging" ]; then
-      icon=""
+      icon=$icon_battery_charging
     fi
     echo -n ",{"
     echo -n "\"name\":\"battery0\","
@@ -264,9 +288,9 @@ volume() {
   echo -n ",{"
   echo -n "\"name\":\"id_volume\","
   if [ $vol = "0%" ]; then
-    echo -n "\"full_text\":\"  ${vol} \","
+    echo -n "\"full_text\":\" $icon_volume_off ${vol} \","
   else
-    echo -n "\"full_text\":\"  ${vol} \","
+    echo -n "\"full_text\":\" $icon_volume_on ${vol} \","
   fi
   echo -n "\"color\":\"$color_volume\","
   echo -n "\"background\":\"$bg\","
