@@ -1,4 +1,5 @@
-alias dstart="docker-compose -f docker-compose-dev.yml up -d"
+alias dstart="docker-compose -f docker-compose-dev.yml up"
+alias ddstart="docker-compose -f docker-compose-dev.yml up -d"
 alias dlist="docker-compose -f docker-compose-dev.yml ps"
 alias dstop="docker-compose -f docker-compose-dev.yml stop && docker-compose -f docker-compose-dev.yml rm -f"
 alias dbuild="dstop && docker-compose -f docker-compose-dev.yml build && dstart"

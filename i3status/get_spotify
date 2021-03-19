@@ -1,17 +1,19 @@
 #!/bin/sh
+TITLE_CUT=10
+ARTIST_CUT=12
 title=`dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'|egrep -A 1 "title"|cut -b 44-|cut -d '"' -f 1|egrep -v ^$` 
 
 STRLENGTH=$(echo -n $title | wc -m)
-if [ "$STRLENGTH" -gt 25 ]; then
-    title=$(echo $title | cut -c1-20)
+if [ "$STRLENGTH" -gt $TITLE_CUT ]; then
+    title=$(echo $title | cut -c1-$TITLE_CUT)
     title="${title}…"
 fi
 
 artist=`dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'|egrep -A 2 "artist"|cut -b 20-|cut -d '"' -f 2|egrep -v ^$|egrep -v array|egrep -v artist`
 
 STRLENGTH=$(echo -n $artist | wc -m)
-if [ "$STRLENGTH" -gt 18 ]; then
-    artist=$(echo $artist | cut -c1-18)
+if [ "$STRLENGTH" -gt $ARTIST_CUT ]; then
+    artist=$(echo $artist | cut -c1-$ARTIST_CUT)
     artist="${artist}…"
 fi
 

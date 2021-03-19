@@ -47,18 +47,6 @@ myspotify() {
   echo -n "},"
 }
 
-mycrypto() {
-  local bg="#FFD180"
-  separator $bg $bg_bar_color
-  echo -n ",{"
-  echo -n "\"name\":\"id_crypto\","
-  echo -n "\"full_text\":\" $(~/.config/i3status/crypto.py) \","
-  echo -n "\"color\":\"#000000\","
-  echo -n "\"background\":\"$bg\","
-  common
-  echo -n "},"
-}
-
 mydocker() {
     local bg="#424242"
     local icon=""
@@ -76,18 +64,6 @@ mydocker() {
     echo -n "},"
 }
 
-myip_public() {
-  local bg="#FFD300"
-  separator $bg $bg_separator_previous
-  echo -n ",{"
-  echo -n "\"name\":\"ip_public\","
-  echo -n "\"full_text\":\"  $(dig +short myip.opendns.com @208.67.220.220) \","
-  echo -n "\"background\":\"$bg\","
-  echo -n "\"color\":\"#000000\","
-  common
-  echo -n "},"
-}
-
 myvpn_on() {
   local bg="#424242" # grey darken-3
   local icon=""
@@ -96,12 +72,38 @@ myvpn_on() {
     bg="#E53935" # rouge
     icon=""
   fi
-  separator $bg "#FFD300" # background left previous block
+  separator $bg $bg_separator_previous # background left previous block
   bg_separator_previous=$bg
   echo -n ",{"
   echo -n "\"name\":\"id_vpn\","      
   echo -n "\"full_text\":\" ${icon} VPN \","
   echo -n "\"background\":\"$bg\","
+  common
+  echo -n "},"
+}
+
+mycrypto() {
+  local bg="#000000"
+  separator $bg $bg_separator_previous
+  bg_separator_previous=$bg
+  echo -n ",{"
+  echo -n "\"name\":\"id_crypto\","
+  echo -n "\"full_text\":\" $(~/.config/i3status/crypto.py) \","
+  echo -n "\"color\":\"#FFFFFF\","
+  echo -n "\"background\":\"$bg\","
+  common
+  echo -n "},"
+}
+
+myip_public() {
+  local bg="#FFD300"
+  separator $bg $bg_separator_previous
+  bg_separator_previous=$bg
+  echo -n ",{"
+  echo -n "\"name\":\"ip_public\","
+  echo -n "\"full_text\":\"  $(dig +short myip.opendns.com @208.67.220.220) \","
+  echo -n "\"background\":\"$bg\","
+  echo -n "\"color\":\"#000000\","
   common
   echo -n "},"
 }
@@ -247,11 +249,11 @@ echo '[]'                   # We send an empty first array of blocks to make the
 (while :;
 do
 	echo -n ",["
- #mycrypto
   myspotify
   mydocker
-  myip_public
   myvpn_on
+  mycrypto
+  myip_public
   myip_local
   disk_usage
   memory
