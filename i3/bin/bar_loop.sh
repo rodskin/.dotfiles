@@ -8,22 +8,22 @@ echo '[]'                   # We send an empty first array of blocks to make the
 (while :;
 do
 	echo -n ",["
-  first
-  myspotify
-  mydocker
-  myvpn_on
-  mycrypto
-  myip_public
-  myip_local
-  disk_usage
-  memory
-  cpu_usage
-  meteo
-  mydate
-  battery0
-  volume
-  systemupdate
-  #logout
-  echo "]"
+    first
+    myspotify
+    mydocker
+    myvpn_on
+    mycrypto
+    myip_public
+    myip_local
+    disk_usage
+    memory
+    cpu_usage
+    meteo
+    mydate
+    battery0
+    volume
+    systemupdate
+    #logout
+    echo "]"
 	sleep 5 
 done) &
