@@ -12,7 +12,8 @@ do
     myspotify
     mydocker
     myvpn_on
-    mycrypto
+    myvmy_on
+    #mycrypto
     myip_public
     myip_local
     disk_usage
@@ -21,9 +22,9 @@ do
     meteo
     mydate
     battery0
-    volume
     systemupdate
-    #logout
+    volume
+   #logout
     echo "]"
 	sleep 5 
 done) &
