@@ -23,7 +23,7 @@ battery0() {
     if [ "$charging" == "Charging" ]; then
       icon=$icon_battery_charging
     fi
-    echo -n ",{"
+    echo -n "{"
     echo -n "\"name\":\"battery0\","
     echo -n "\"full_text\":\" ${icon} ${prct}% \","
     echo -n "\"color\":\"$color_battery\","

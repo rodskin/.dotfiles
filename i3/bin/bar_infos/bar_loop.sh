@@ -13,7 +13,7 @@ do
     mydocker
     myvpn_on
     myvmy_on
-    #mycrypto
+    mycrypto
     myip_public
     myip_local
     disk_usage
@@ -25,6 +25,7 @@ do
     systemupdate
     volume
    #logout
+   last
     echo "]"
 	sleep 5 
 done) &

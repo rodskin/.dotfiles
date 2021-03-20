@@ -10,10 +10,10 @@ systemupdate() {
   fi
   separator $bg $bg_separator_previous # background left previous block
   bg_separator_previous=$bg
-  echo -n ",{"
+  echo -n "{"
   echo -n "\"name\":\"id_systemupdate\","
   echo -n "\"full_text\":\" ${icon_systemupdate} ${nb} \","
-  echo -n "\"color\":\" ${color} \","
+  echo -n "\"color\":\" $color \","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "},"

@@ -10,13 +10,13 @@ myvpn_on() {
 
   separator $bg $bg_separator_previous # background left previous block
   bg_separator_previous=$bg
-  echo -n ",{"
+  echo -n "{"
   echo -n "\"name\":\"id_vpn\","      
   echo -n "\"full_text\":\" ${icon} DBPN \","
   echo -n "\"color\":\"$color_vpn\","
   echo -n "\"background\":\"$bg\","
   common
-  echo -n "}"
+  echo -n "},"
 }
 
 myvmy_on() {
@@ -30,7 +30,7 @@ myvmy_on() {
 
   #separator $bg $bg_separator_previous # background left previous block
   bg_separator_previous=$bg
-  echo -n ",{"
+  echo -n "{"
   echo -n "\"name\":\"id_vmy\","      
   echo -n "\"full_text\":\" ${icon} VMY \","
   echo -n "\"color\":\"$color_vpn\","

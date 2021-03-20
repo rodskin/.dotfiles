@@ -7,7 +7,7 @@ mydocker() {
     fi
     separator $bg $bg_separator_previous 
     bg_separator_previous=$bg
-    echo -n ",{"
+    echo -n "{"
     echo -n "\"name\":\"id_docker\","      
     echo -n "\"full_text\":\" ${icon_docker} ${docker_count} \","
     echo -n "\"color\":\"$color_docker\","

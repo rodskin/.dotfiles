@@ -5,8 +5,8 @@
 #   status_command exec /home/you/.config/i3status/mybar.sh
 # }
 
-source ~/.config/i3/bin/bar_infos/bar_colors.sh
-source ~/.config/i3/bin/bar_infos/bar_icons.sh
+source ~/.config/i3/bin/bar_colors.sh
+source ~/.config/i3/bin/bar_icons.sh
 
 source ~/.config/i3/bin/bar_infos/common.sh
 source ~/.config/i3/bin/bar_infos/battery.sh
@@ -23,6 +23,27 @@ source ~/.config/i3/bin/bar_infos/systemupdate.sh
 source ~/.config/i3/bin/bar_infos/logout.sh
 
 # Now send blocks with information forever:
-source ~/.config/i3/bin/bar_infos/bar_loop.sh
+echo '['                    # Begin the endless array.
+echo '[]'                   # We send an empty first array of blocks to make the loop simpler:
 
-source ~/.config/i3/bin/bar_infos/bar_events.sh
+echo -n ",["
+first
+#myspotify
+mydocker
+myvpn_on
+myvmy_on
+mycrypto
+myip_public
+myip_local
+disk_usage
+memory
+cpu_usage
+meteo
+mydate
+battery0
+systemupdate
+volume
+#logout
+last
+echo "]"
+echo -n "]"

@@ -11,7 +11,7 @@ separator() {
   echo -n "\"border_bottom\":2,"
   echo -n "\"color\":\"$1\","
   echo -n "\"background\":\"$2\""
-  echo -n "}"
+  echo -n "},"
 }
 
 common() {
@@ -28,10 +28,21 @@ first() {
   local bg=$bg_bar_color
   separator $bg $bg_bar_color
   bg_separator_previous=$bg
-  echo -n ",{"
+  echo -n "{"
   echo -n "\"name\":\"first\","
   echo -n "\"full_text\":\"\","
   echo -n "\"background\":\"$bg\","
   common
   echo -n "},"
+}
+
+last() {
+  local bg=$bg_bar_color
+  bg_separator_previous=$bg
+  echo -n "{"
+  echo -n "\"name\":\"last\","
+  echo -n "\"full_text\":\"\","
+  echo -n "\"background\":\"$bg\","
+  common
+  echo -n "}"
 }
