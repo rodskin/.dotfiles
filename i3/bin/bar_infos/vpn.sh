@@ -11,7 +11,7 @@ myvpn_on() {
   separator $bg $bg_separator_previous # background left previous block
   bg_separator_previous=$bg
   echo -n "{"
-  echo -n "\"name\":\"id_vpn\","      
+  echo -n "\"name\":\"id_dbpn\","      
   echo -n "\"full_text\":\" ${icon} DBPN \","
   echo -n "\"color\":\"$color_vpn\","
   echo -n "\"background\":\"$bg\","

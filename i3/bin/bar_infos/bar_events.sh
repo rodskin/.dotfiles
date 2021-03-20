@@ -7,12 +7,11 @@ do
   # {"name":"id_vpn","button":1,"modifiers":["Mod2"],"x":2982,"y":9,"relative_x":67,"relative_y":9,"width":95,"height":22}
 
   # VPN click
-  if [[ $line == *"name"*"id_vpn"* ]]; then
-    alacritty -e /home/you/.config/i3status/click_vpn.sh &
+  if [[ $line == *"name"*"id_dbpn"* ]]; then
+    alacritty -e ~/.config/i3status/click_dbpn.sh &
 
-  # CHECK UPDATES
-  elif [[ $line == *"name"*"id_systemupdate"* ]]; then
-    alacritty -e /home/you/.config/i3status/click_checkupdates.sh &
+  #elif [[ $line == *"name"*"id_vmy"* ]]; then
+    #alacritty -e ~/.config/i3status/click_vmy.sh &
 
   # CPU
   elif [[ $line == *"name"*"id_cpu_usage"* ]]; then
@@ -20,7 +19,7 @@ do
 
   # TIME
   elif [[ $line == *"name"*"id_time"* ]]; then
-    alacritty -e /home/you/.config/i3status/click_time.sh &
+    alacritty --hold -e ~/.config/i3status/click_time.sh &
 
   # METEO
   elif [[ $line == *"name"*"id_meteo"* ]]; then
