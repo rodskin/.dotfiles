@@ -13,7 +13,7 @@ do
     mydocker
     myvpn_on
     myvmy_on
-    mycrypto
+    #mycrypto
     myip_public
     myip_local
     disk_usage
@@ -21,9 +21,9 @@ do
     cpu_usage
     meteo
     mydate
+    volume
     battery0
     systemupdate
-    volume
    #logout
    last
     echo "]"
