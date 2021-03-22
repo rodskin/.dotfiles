@@ -13,7 +13,13 @@ git
 mycli
 playerctl
 autorandr
+bsdmainutils
+ncal
+gcalcli
 
+
+docker
+docker-compose
 
 https://github.com/ryanoasis/nerd-fonts#font-installation
 

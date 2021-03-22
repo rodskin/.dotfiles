@@ -1,6 +1,6 @@
 #!/bin/sh
 icon_spotify=""
-icon_docker=""
+icon_docker=""
 icon_vpn_off=""
 icon_vpn_on=""
 icon_crypto="₿"
