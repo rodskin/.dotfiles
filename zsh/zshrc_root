@@ -2,8 +2,10 @@ source $HOME/.dotfiles/zsh/zshrc_functions
 
 source $HOME/.dotfiles/zsh/zshrc_aliases_folders
 source $HOME/.dotfiles/zsh/zshrc_aliases
+source $HOME/.dotfiles/zsh/zshrc_aliases_randr
 source $HOME/.dotfiles/zsh/zshrc_aliases_mysql
 source $HOME/.dotfiles/zsh/zshrc_aliases_vpn
 source $HOME/.dotfiles/zsh/zshrc_aliases_bluetooth
 source $HOME/.dotfiles/zsh/zshrc_aliases_docker
+source $HOME/.dotfiles/zsh/zshrc_aliases_ubuntu
 source $HOME/.dotfiles/zsh/zshrc_aliases_private

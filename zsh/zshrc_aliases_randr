@@ -1,0 +1,2 @@
+alias home="autorand --load home"
+alias laptop="autorandr --load laptop"
