@@ -11,3 +11,41 @@ mydate() {
   common
   echo -n "},"
 }
+
+mybirthday() {
+    local bg=$bg_birthday
+    today=$(date +'%Y-%m-%d')
+    tomorrow=$(date +'%Y-%m-%d' -d "+1 days")
+    birthday=`gcalcli agenda ${today} ${tomorrow} | grep 'Anniversaire'`
+    bg_separator_previous=$bg
+    full_text=""
+    if [ ! -z "$birthday" ]; then
+        full_text=" $icon_birthday "
+    fi
+    echo -n "{"
+    echo -n "\"name\":\"id_birthday\","
+    echo -n "\"full_text\":\"$full_text\","
+    echo -n "\"color\":\"$color_birthday\","
+    echo -n "\"background\":\"$bg\","
+    common
+    echo -n "},"
+}
+
+myagenda() {
+    local bg=$bg_calendar
+    local today=$(date +'%Y-%m-%d')
+    local tomorrow=$(date +'%Y-%m-%d' -d "+1 days")
+    todo=`gcalcli --calendar=Mon\ agenda agenda ${today} ${tomorrow} | grep 'No Events Found'`
+    bg_separator_previous=$bg
+    full_text=""
+    if [ -z "$todo" ]; then
+        full_text=" $icon_calendar "
+    fi
+    echo -n "{"
+    echo -n "\"name\":\"id_agenda\","
+    echo -n "\"full_text\":\"$full_text\","
+    echo -n "\"color\":\"$color_calendar\","
+    echo -n "\"background\":\"$bg\","
+    common
+    echo -n "},"
+}

@@ -21,6 +21,8 @@ do
     cpu_usage
     meteo
     mydate
+    myagenda
+    mybirthday
     volume
     battery0
     systemupdate
