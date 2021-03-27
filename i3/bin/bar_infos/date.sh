@@ -15,7 +15,7 @@ mydate() {
 mybirthday() {
     local bg=$bg_birthday
     today=$(date +'%Y-%m-%d')
-    tomorrow=$(date +'%Y-%m-%d' -d "+1 days")
+    tomorrow=$(date +'%Y-%m-%d' -d "+2 days")
     birthday=`gcalcli agenda ${today} ${tomorrow} | grep 'Anniversaire'`
     bg_separator_previous=$bg
     full_text=""
@@ -33,9 +33,9 @@ mybirthday() {
 
 myagenda() {
     local bg=$bg_calendar
-    local today=$(date +'%Y-%m-%d')
-    local tomorrow=$(date +'%Y-%m-%d' -d "+1 days")
-    todo=`gcalcli --calendar=Mon\ agenda agenda ${today} ${tomorrow} | grep 'No Events Found'`
+    local today=$(date +'%Y-%m-%dT%H:%M:%S')
+    local tomorrow=$(date +'%Y-%m-%d' -d "+2 days")
+    todo=`gcalcli --calendar=Rod agenda ${today} ${tomorrow} | grep 'No Events Found'`
     bg_separator_previous=$bg
     full_text=""
     if [ -z "$todo" ]; then

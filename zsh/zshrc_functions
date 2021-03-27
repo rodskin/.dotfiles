@@ -1,3 +1,29 @@
+#!/bin/sh
+
+########
+# COLORS
+########
+NORMAL="\033[0m"
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+BROWN="\033[0;33m"
+BLUE="\033[0;34m"
+CYAN="\033[0;36m"
+YELLOW="\033[0;33m"
+LIGHT_RED="\033[1;31m"
+LIGHT_GREEN="\033[1;32m"
+LIGHT_BLUE="\033[1;34m"
+LIGHT_YELLOW="\033[1;33m"
+WHITE="\033[1;37m"
+BLACK="\033[0;30m"
+MAGENTA="\033[1;35m"
+LIGHT_CYAN="\033[1;36m"
+LIGHT_GRAY="\033[0;37m"
+GRAY="\033[01;30m"
+BOLD="\033[1m"
+UNDERSCORE="\033[4m"
+REVERSE="\033[7m"
+
 function extract()  	# Handy Extract Program
 {
 	if [ -f $1 ] ; then
@@ -38,11 +64,65 @@ function screen()
             #calcul=$(($1 / 100 | bc ))
             calcul=$(( $1/100. ))
             xrandr --output eDP-1 --brightness $calcul
+            xrandr --output HDMI-2 --brightness $calcul
         else
             echo "Spécifiez un entier entre 1 et 100"
         fi
     fi
 }
+
+function screenp()
+{
+    if [ -z $1 -o $1 -eq 0 ]; then
+        echo "Spécifiez un entier entre 1 et 100"
+    else
+        if [ $1 -gt 0 -a $1 -le 100 ]; then
+            #calcul=$(($1 / 100 | bc ))
+            calcul=$(( $1/100. ))
+            primary=`xrandr | grep -e " primary [^(]" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/"`
+            xrandr --output ${primary} --brightness $calcul
+        else
+            echo "Spécifiez un entier entre 1 et 100"
+        fi
+    fi
+}
+
+function screenchoose()
+{
+    if [ -z $1 -o $1 -eq 0 ]; then
+        echo "Spécifiez un entier entre 1 et 100"
+    else
+        if [ $1 -gt 0 -a $1 -le 100 ]; then
+            #calcul=$(($1 / 100 | bc ))
+            calcul=$(( $1/100. ))
+            templist=( $(xrandr | grep -e " connected [^(]" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/") )
+            primary=`xrandr | grep -e " primary [^(]" | sed -e "s/\([A-Z0-9]\+\) connected.*/\1/"`
+            echo -e "${YELLOW}Which screen to update?${NORMAL}"
+            echo '0: all'
+            i=1
+            for fn in $templist; do
+                screen="$i: $fn"
+                if [ "$fn" = "$primary" ]; then
+                    screen="${screen} (${GREEN}primary${NORMAL})"
+                fi
+                echo "$screen"
+                ((i=i + 1))
+            done
+            read -n
+            screen_chosen=$REPLY
+            if [ "$screen_chosen" -eq 0 ]; then
+                for fn in $templist; do
+                    xrandr --output ${fn} --brightness $calcul
+                done
+            else
+                xrandr --output $templist[$screen_chosen] --brightness $calcul
+            fi
+        else
+            echo "Spécifiez un entier entre 1 et 100"
+        fi
+    fi
+}
+
 
 function ssh_alias() {
     ssh "$@";

@@ -1,2 +1,2 @@
-alias home="autorand --load home"
-alias laptop="autorandr --load laptop"
+alias home="autorandr --load home"
+alias laptop="autorandrr --load laptop"
