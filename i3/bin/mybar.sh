@@ -9,6 +9,7 @@ source ~/.config/i3/bin/bar_infos/bar_colors.sh
 source ~/.config/i3/bin/bar_infos/bar_icons.sh
 
 source ~/.config/i3/bin/bar_infos/common.sh
+source ~/.config/i3/bin/bar_infos/epic.sh
 source ~/.config/i3/bin/bar_infos/battery.sh
 source ~/.config/i3/bin/bar_infos/crypto.sh
 source ~/.config/i3/bin/bar_infos/spotify.sh

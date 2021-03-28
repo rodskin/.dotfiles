@@ -12,6 +12,9 @@ do
 
   #elif [[ $line == *"name"*"id_vmy"* ]]; then
     #alacritty -e ~/.config/i3status/click_vmy.sh &
+  
+  elif [[ $line == *"name"*"id_epic"* ]]; then
+    xdg-open https://www.epicgames.com/store/fr/ > /dev/null &
 
   # CPU
   elif [[ $line == *"name"*"id_cpu_usage"* ]]; then
