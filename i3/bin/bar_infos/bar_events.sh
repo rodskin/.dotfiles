@@ -17,7 +17,7 @@ do
     xdg-open https://www.epicgames.com/store/fr/ > /dev/null &
 
   # CPU
-  elif [[ $line == *"name"*"id_cpu_usage"* ]]; then
+  elif [[ $line == *"name"*"id_disk_mem_cpu"* ]]; then
     alacritty -e htop &
 
   # TIME
