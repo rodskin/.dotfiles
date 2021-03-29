@@ -127,6 +127,11 @@ set $ws8 "8: "
 set $ws9 "9: "
 set $ws10 "10: vmy"
 
+workspace $ws1 output primary
+workspace $ws4 output primary
+workspace $ws5 output primary
+workspace $ws9 output primary
+
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
@@ -188,8 +193,17 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command exec ~/.config/i3/bin/mybar.sh
+        status_command exec ~/.config/i3/bin/full_bar.sh
         font pango:DejaVu Sans Mono, FontAwesome 10
+        output primary
+}
+
+bar {
+        #status_command i3status
+        status_command exec ~/.config/i3/bin/small_bar.sh
+        font pango:DejaVu Sans Mono, FontAwesome 10
+        workspace_buttons yes
+        output eDP-1
 }
 
 # Wallpaper

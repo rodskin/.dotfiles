@@ -55,7 +55,7 @@ function makegzip() { gzip -9 "${1%%/}"  "${1%%/}/"; }
 # Create a ZIP archive of a file or folder.
 function makezip() { zip -r "${1%%/}.zip" "$1" ; }
 
-function screen()
+function screen_()
 {
     if [ -z $1 -o $1 -eq 0 ]; then
         echo "Spécifiez un entier entre 1 et 100"
