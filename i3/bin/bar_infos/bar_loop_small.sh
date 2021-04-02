@@ -10,12 +10,16 @@ do
 	echo -n ",["
     first
     myspotify
+    myvpn_on
+    myvmy_on
+    myip_public
+    myip_local
     disk_usage
     memory
     cpu_usage
     mydate
     volume
-   last
+    last
     echo "]"
 	sleep 5 
 done) &

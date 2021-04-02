@@ -12,6 +12,12 @@ do
 
   #elif [[ $line == *"name"*"id_vmy"* ]]; then
     #alacritty -e ~/.config/i3status/click_vmy.sh &
+
+  elif [[ $line == *"name"*"ip_public"* ]]; then
+    alacritty --hold -e ~/.config/i3status/click_ip.sh &
+
+  elif [[ $line == *"name"*"ip_local"* ]]; then
+    alacritty --hold -e ~/.config/i3status/click_ip.sh &
   
   elif [[ $line == *"name"*"id_epic"* ]]; then
     xdg-open https://www.epicgames.com/store/fr/ > /dev/null &

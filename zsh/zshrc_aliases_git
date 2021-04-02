@@ -1,0 +1,1 @@
+alias mygit="git config user.name \"Rodskin\" && git config user.email \"rod.gilles@gmail.com\""
