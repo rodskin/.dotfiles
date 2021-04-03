@@ -14,10 +14,13 @@ do
     myvmy_on
     myip_public
     myip_local
-    disk_usage
+    pre_disk_cpu_mem
+    #disk_usage
     memory
     cpu_usage
     mydate
+    myagenda
+    mybirthday
     volume
     last
     echo "]"

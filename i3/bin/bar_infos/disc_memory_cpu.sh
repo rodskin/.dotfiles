@@ -1,8 +1,12 @@
 #!/bin/bash
-disk_usage() {
+pre_disk_cpu_mem() {
   local bg=$bg_disc_cpu_memory
   separator $bg $bg_separator_previous # background left previous block
   bg_separator_previous=$bg
+}
+
+disk_usage() {
+  local bg=$bg_disc_cpu_memory
   echo -n "{"
   echo -n "\"name\":\"id_disk_mem_cpu\","
   echo -n "\"full_text\":\" $icon_disc $(~/.config/i3status/disk.py)%\","

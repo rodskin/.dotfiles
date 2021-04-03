@@ -17,6 +17,7 @@ do
     #mycrypto
     myip_public
     myip_local
+    pre_disk_cpu_mem
     disk_usage
     memory
     cpu_usage
