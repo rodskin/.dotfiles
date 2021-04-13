@@ -203,6 +203,7 @@ bar {
         status_command exec ~/.config/i3/bin/small_bar.sh
         font pango:DejaVu Sans Mono, FontAwesome 10
         workspace_buttons yes
+        #tray_output eDP-1
         output eDP-1
 }
 

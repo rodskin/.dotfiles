@@ -207,3 +207,4 @@ EOF
     }
 alias vimdiff='nvim -d'
 alias shorttags="find -type f -name '*.php' -exec grep -IlP '<\?(?!(php|xml|mso|=))' {} +"
+alias gettags="ctags -R"
