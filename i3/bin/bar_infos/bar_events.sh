@@ -32,6 +32,10 @@ do
   # TIME
     elif [[ $line == *"name"*"id_time"* ]]; then
         alacritty --hold -e ~/.config/i3status/click_time.sh &
+        
+  # BLUETOOTH
+    elif [[ $line == *"name"*"id_bluetooth"* ]]; then
+        alacritty -e bluetoothctl &
 
   # METEO
     elif [[ $line == *"name"*"id_meteo"* ]]; then
