@@ -21,7 +21,9 @@ do
     mydate
     myagenda
     mybirthday
+    bluetooth
     volume
+    battery0
     last
     echo "]"
 	sleep 5 

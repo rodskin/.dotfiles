@@ -49,3 +49,8 @@ au VimEnter,BufWinEnter * syn match ErrorMsg '[^\x00-\x7F€àÀâÂéÉèÈêÊ
 " decalage en mode visuel
 vmap <TAB> >gv
 vmap <S-TAB> <gv
+" F3 - Line numbers toggle
+map <F3> :set nonumber!<Enter>
+imap <F3> :set nonumber!<Enter>
+map <F4> :set relativenumber!<Enter>
+imap <F4> :set relativenonumber!<Enter>

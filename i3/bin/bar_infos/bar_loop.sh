@@ -25,6 +25,7 @@ do
     mydate
     myagenda
     mybirthday
+    bluetooth
     volume
     battery0
     systemupdate

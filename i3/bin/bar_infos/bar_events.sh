@@ -23,7 +23,7 @@ do
         alacritty --hold -e ~/.config/i3status/click_ip.sh &
   
     elif [[ $line == *"name"*"id_epic"* ]]; then
-        xdg-open https://www.epicgames.com/store/fr/ > /dev/null &
+        xdg-open https://www.epicgames.com/store/fr/free-games > /dev/null &
 
   # CPU
     elif [[ $line == *"name"*"id_disk_mem_cpu"* ]]; then

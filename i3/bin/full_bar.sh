@@ -19,6 +19,7 @@ source ~/.config/i3/bin/bar_infos/disc_memory_cpu.sh
 source ~/.config/i3/bin/bar_infos/docker.sh
 source ~/.config/i3/bin/bar_infos/meteo.sh
 source ~/.config/i3/bin/bar_infos/date.sh
+source ~/.config/i3/bin/bar_infos/bluetooth.sh
 source ~/.config/i3/bin/bar_infos/volume.sh
 source ~/.config/i3/bin/bar_infos/systemupdate.sh
 source ~/.config/i3/bin/bar_infos/logout.sh
