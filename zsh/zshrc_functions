@@ -122,3 +122,13 @@ function screenchoose()
         fi
     fi
 }
+
+function dockercomposename ()
+{
+    echo $(docker inspect -f '{{.Name}}' $(docker-compose ps -q) | cut -c2-)
+}
+
+function dockercomposessh()
+{
+    docker exec -it $(docker inspect -f '{{.Name}}' $(docker-compose ps -q) | cut -c2-) /bin/bash
+}
