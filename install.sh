@@ -3,7 +3,15 @@ source colors.sh
 echo -e "${green}************************************************${default}"
 echo -e "${green}* INSTALATION DES LOGICIELS${default}"
 echo -e "${green}************************************************${default}"
-sudo apt install -y gcalcli dmenu zsh tmux i3 nvim vim gimp git mycli payerctl autorandr ncal docker filezilla
+sudo apt install -y gcalcli dmenu zsh tmux i3 nvim vim gimp git mycli playerctl autorandr ncal docker filezilla
+
+
+echo -e "${green}************************************************${default}"
+echo -e "${green}* INSTALATION DE DOCKER-COMPOSE${default}"
+echo -e "${green}************************************************${default}"
+sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
 
 echo -e "${green}************************************************${default}"
 echo -e "${green}* CREATION DES LIENS SYMBOLIQUES${default}"
