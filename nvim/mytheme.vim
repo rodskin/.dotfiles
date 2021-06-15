@@ -54,3 +54,6 @@ map <F3> :set nonumber!<Enter>
 imap <F3> :set nonumber!<Enter>
 map <F4> :set relativenumber!<Enter>
 imap <F4> :set relativenonumber!<Enter>
+
+nmap - :vertical resize -5!<Enter>
+nmap + :vertical resize +5!<Enter>
