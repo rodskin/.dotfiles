@@ -132,3 +132,22 @@ function dockercomposessh()
 {
     docker exec -it $(docker inspect -f '{{.Name}}' $(docker-compose ps -q) | cut -c2-) /bin/bash
 }
+
+function myaliases ()
+{
+    if [ -z $1 ]; then
+        alias
+    else
+    	case $1 in
+        	help) ls -A1 ~/.dotfiles/zsh/zshrc_aliases_* ;;
+        	*) 
+                FILE=~/.dotfiles/zsh/zshrc_aliases_$1
+                if [ -f "$FILE" ]; then
+                    grep 'alias ' $FILE
+                else
+                    ls -A1 ~/.dotfiles/zsh/zshrc_aliases_*
+                fi ;;
+    	esac
+    fi
+    
+}
