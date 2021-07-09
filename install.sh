@@ -3,8 +3,11 @@ source colors.sh
 echo -e "${green}************************************************${default}"
 echo -e "${green}* INSTALATION DES LOGICIELS${default}"
 echo -e "${green}************************************************${default}"
-sudo apt install -y gcalcli dmenu zsh tmux i3 nvim vim gimp git mycli playerctl autorandr ncal docker filezilla
-
+while read in
+do  
+    echo -e "${yellow} INSTALLATION DE ${in}:${default}"
+    sudo apt install -y "$in"
+done < programs_to_install.txt
 
 echo -e "${green}************************************************${default}"
 echo -e "${green}* INSTALATION DE DOCKER-COMPOSE${default}"

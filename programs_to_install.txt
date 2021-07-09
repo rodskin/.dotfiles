@@ -1,0 +1,16 @@
+gcalcli
+dmenu
+zsh
+tmux
+i3
+nvim
+vim
+gimp
+git
+mycli
+playerctl
+autorandr
+ncal
+docker
+filezilla
+alacritty
