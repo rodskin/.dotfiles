@@ -151,3 +151,53 @@ function myaliases ()
     fi
     
 }
+
+function sbash() {
+    case "$1" in
+        -h|--help|"")
+            echo
+            echo -e "\033${TERM_COLOR_LIGHT_RED}Usage: $FUNCNAME <[user@]host> [port]\033${TERM_COLOR_NORMAL}"
+            echo
+                cat <<EOF
+    ssh alias that brings configuration (mainly bash, vim and git) with you when connecting
+EOF
+            return 1
+            ;;
+    esac
+    HOST="$1"
+    PORT=22
+    if [ "$2" != "" ]; then
+        PORT="$2";
+    fi;
+    if [[ "$SBASH_SUFFIX" == "" ]];
+    then
+        SBASH_SUFFIX="$RANDOM"
+        echo "SBASH_SUFFIX=$SBASH_SUFFIX" > /tmp/.bashrc_$SBASH_SUFFIX
+        cat ~/.dotfiles/pa/.bashrc_common >> /tmp/.bashrc_$SBASH_SUFFIX
+        cp -f ~/.dotfiles/pa/.vimrc_common /tmp/.vimrc_$SBASH_SUFFIX
+        cp -f ~/.dotfiles/pa//diffconflicts /tmp/.diffconflicts_$SBASH_SUFFIX
+        chmod 700 /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX
+    fi
+    #echo -ne "\r."
+    # ask for password only once in a lifetime
+    #SSH_COPY_ID_FAILED=1
+    #for TRYING in 1 2 3
+    #do
+    ssh-copy-id -o ControlMaster=yes -p $PORT $1 2>/dev/null
+    SSH_COPY_ID_FAILED=$?
+    if [ "$SSH_COPY_ID_FAILED" != "0" ]; then
+        echo "ssh-copy-id failed... sorry";
+        #return 1;
+    else
+        echo -ne "\r."
+    fi
+    #done
+    # connect only once for scp
+    scp -P $PORT -Cqp /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX $1:/tmp/ || return 2;
+    echo -e "\r.."
+    #SBASH_CMD="ionice -c 3 nice bash --rcfile /tmp/.bashrc_$SBASH_SUFFIX ; rm -f /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX "
+    SBASH_CMD="bash --rcfile /tmp/.bashrc_$SBASH_SUFFIX ; rm -f /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX "
+    ssh -p $PORT -C -t "$HOST" "$SBASH_CMD"
+    rm -f /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX
+    unset SBASH_SUFFIX
+}

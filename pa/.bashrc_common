@@ -1,0 +1,486 @@
+# do not source this file twice!
+if [ "$SBASH_ALREADY_INCLUDED" == "" ]; then
+    SBASH_ALREADY_INCLUDED=1
+
+    # ================================================================
+    # Fichier de configuration portable pour utilisation à travers SSH
+    # ================================================================
+
+    #################
+    # HISTORIQUE LONG
+    #################
+    export HISTTIMEFORMAT="%Y/%m/%d @ %T "
+    export HISTFILESIZE=999999
+    export HISTSIZE=999999
+
+    ################################
+    # LANGUE et encodage du terminal
+    ################################
+    #LANG="en_US.UTF-8"
+
+    #####################
+    # actual user rcfiles
+    ####################
+    if [ -f /etc/profile ]; then
+        . /etc/profile
+    fi
+
+    if [ -f .profile ]; then
+        . .profile
+    fi
+
+    #################
+    # bash_completion
+    #################
+    if [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
+
+    ########
+    # PROMPT
+    ########
+    TERM_COLOR_NORMAL="[0m"
+    TERM_COLOR_RED="[0;31m"
+    TERM_COLOR_GREEN="[0;32m"
+    TERM_COLOR_BROWN="[0;33m"
+    TERM_COLOR_BLUE="[0;34m"
+    TERM_COLOR_CYAN="[0;36m"
+    TERM_COLOR_YELLOW="[0;33m"
+    TERM_COLOR_LIGHT_RED="[1;31m"
+    TERM_COLOR_LIGHT_GREEN="[1;32m"
+    TERM_COLOR_LIGHT_BLUE="[1;34m"
+    TERM_COLOR_LIGHT_YELLOW="[1;33m"
+    TERM_COLOR_WHITE="[1;37m"
+    TERM_COLOR_BLACK="[0;30m"
+    TERM_COLOR_MAGENTA="[1;35m"
+    TERM_COLOR_LIGHT_CYAN="[1;36m"
+    TERM_COLOR_LIGHT_GRAY="[0;37m"
+    TERM_COLOR_GRAY="[01;30m"
+    TERM_COLOR_BOLD="[1m"
+    TERM_COLOR_UNDERSCORE="[4m"
+    TERM_COLOR_REVERSE="[7m"
+
+    # GIT prompt replacement
+    function SBASH_git_ps1() {
+        echo -n " "
+        gitsym="$(git symbolic-ref HEAD 2>/dev/null)"
+        branch="${gitsym##refs/heads/}"
+        if [ "$branch" == "" ]; then
+            branch="$(git branch 2>/dev/null | grep '^\* ' | sed 's/^\* //g')"
+        fi
+        if [ "$branch" == "" ]; then
+            exit 0;
+        fi
+        status_nb="$(LANG=C LANGUAGE=C LC_ALL=C git status -suno | wc -l | sed 's/ *//g')"
+        status_long="$(LANG=C LANGUAGE=C LC_ALL=C git status -uno)"
+        incoming="$(LANG=C LANGUAGE=C LC_ALL=C git log --oneline ..origin/$branch 2>/dev/null | wc -l | sed 's/ *//g')"
+        incomingupstream="$(LANG=C LANGUAGE=C LC_ALL=C git log --oneline ..upstream/$branch 2>/dev/null | wc -l | sed 's/ *//g')"
+        unpushed="$(LANG=C LANGUAGE=C LC_ALL=C git log --oneline origin/$branch..HEAD 2>/dev/null | wc -l | sed 's/ *//g')"
+        unpushedupstream="$(LANG=C LANGUAGE=C LC_ALL=C git log --oneline upstream/$branch..HEAD 2>/dev/null | wc -l | sed 's/ *//g')"
+        stashed="$(LANG=C LANGUAGE=C LC_ALL=C git stash list | wc -l | sed 's/ *//g')"
+        merging="$(echo "$status_long" | grep '^You have unmerged paths' | wc -l | sed 's/ *//g')"
+        resolving="$(echo "$status_long" | grep '^All conflicts fixed but you are still merging\.' | wc -l | sed 's/ *//g')"
+        rebasing="$(echo "$status_long" | grep '^You are currently rebasing' | wc -l | sed 's/ *//g')"
+        bisecting="$(echo "$status_long" | grep '^You are currently bisecting' | wc -l | sed 's/ *//g')"
+        reverting="$(echo "$status_long" | grep '^You are currently reverting' | wc -l | sed 's/ *//g')"
+        echo -n "[$branch]"
+        if [ "$status_nb $incoming $incomingupstream $unpushed $unpushedupstream $stashed $merging $rebasing $bisecting $reverting" != "0 0 0 0 0 0 0 0 0" ]; then
+            local statusline=""
+            if [ "$status_nb" != "0" ]; then
+                statusline="$statusline$status_nb files changed, "
+            fi
+            if [ "$stashed" != "0" ]; then
+                nbstashconflicts="$(gitstashconflicts | wc -l | xargs)"
+                if [ "$nbstashconflicts" != "0" ]; then
+                    statusline="$statusline$stashed stashed ($nbstashconflicts may conflict), "
+                else
+                    statusline="$statusline$stashed stashed, "
+                fi
+            fi
+            if [ "$incoming" != "0" ]; then
+                nbconflicts="$(gitincomingconflicts | wc -l | xargs)"
+                if [ "$nbconflicts" != "0" ]; then
+                    statusline="$statusline$incoming incoming \033${TERM_COLOR_LIGHT_RED}($nbconflicts may conflict)\033${TERM_COLOR_YELLOW}, "
+                else
+                    statusline="$statusline$incoming incoming, "
+                fi
+            fi
+            if [ "$incomingupstream" != "0" ]; then
+                nbconflictsupstream="$(gitincomingupstreamconflicts | wc -l | xargs)"
+                if [ "$nbconflictsupstream" != "0" ]; then
+                    statusline="$statusline$incomingupstream behind upstream \033${TERM_COLOR_LIGHT_RED}($nbconflictsupstream may conflict)\033${TERM_COLOR_YELLOW}, "
+                else
+                    statusline="$statusline$incomingupstream behind upstream, "
+                fi
+            fi
+            if [ "$unpushed" != "0" ]; then
+                statusline="$statusline$unpushed unpushed, "
+            fi
+            if [ "$unpushedupstream" != "0" ]; then
+                statusline="$statusline$unpushedupstream ahead, "
+            fi
+            if [ "$merging" != "0" ]; then
+                statusline="$statusline MERGING, "
+            fi
+            if [ "$resolving" != "0" ]; then
+                statusline="$statusline RESOLVING, "
+            fi
+            if [ "$rebasing" != "0" ]; then
+                statusline="$statusline REBASING, "
+            fi
+            if [ "$bisecting" != "0" ]; then
+                statusline="$bisecting BISECTING, "
+            fi
+            if [ "$reverting" != "0" ]; then
+                statusline="$reverting REVERTING, "
+            fi
+            if [ "$statusline" != "" ]; then
+                statusline="$(echo -e "$statusline" | sed 's/, $//g')"
+                echo -en "\033${TERM_COLOR_YELLOW} (";
+                echo -n $statusline
+                echo -en ")\033${TERM_COLOR_LIGHT_YELLOW}";
+            fi
+        fi
+    }
+    PS1="\n\`if [ \$? = 0 ]; then echo -e '\[\033${TERM_COLOR_LIGHT_GRAY}\]'; else echo -e '\[\033${TERM_COLOR_LIGHT_RED}\]'; fi\`\D{%d-%m:%H:%M }\[\033\`if [ '$SBASH_SUFFIX' = '' ]; then echo "\${TERM_COLOR_GREEN}"; else echo "\${TERM_COLOR_CYAN}"; fi\`\]\`if [ \$(whoami) = 'root' ]; then echo -e '\[\033${TERM_COLOR_LIGHT_RED}\]root'; else echo '\u'; fi\`@\h:\[\033\`if [ '$SBASH_SUFFIX' = '' ]; then echo "\${TERM_COLOR_LIGHT_GREEN}"; else echo "\${TERM_COLOR_LIGHT_CYAN}"; fi\`\]\w\`if [ '$SBASH_INSCREEN$SBASH_SUFFIX' = '' ]; then echo ''; else echo ' \[\033${TERM_COLOR_LIGHT_RED}\]SSH$SBASH_INSCREEN\[\033${TERM_COLOR_NORMAL}\]'; fi\`\[\033${TERM_COLOR_LIGHT_YELLOW}\]\$(SBASH_git_ps1)\[\033${TERM_COLOR_NORMAL}\]\n\[\033${TERM_COLOR_NORMAL}\]\`if [ \$(whoami) = 'root' ]; then echo '\[\033${TERM_COLOR_WHITE}\]#\[\033${TERM_COLOR_NORMAL}\]'; else echo '\[\033${TERM_COLOR_WHITE}\]$\[\033${TERM_COLOR_NORMAL}\]'; fi\` "
+
+
+    ###########################
+    # ALIAS et fonctions divers
+    ###########################
+    alias rm="rm -i"
+    alias mv="mv -i"
+    alias cp="cp -i"
+    if [[ "$(ls --version >/dev/null 2>&1 && echo '1' || echo '0')" == "1" ]]; then
+        if [[ "$(ls --group-directories-first /tmp >/dev/null 2>&1 && echo '1' || echo '0')" == "1" ]]; then
+            alias ll="ls -alh --color=auto --group-directories-first "
+        else
+            alias ll="ls -alh --color=auto "
+        fi
+    else
+        alias ll="ls -alhG "
+    fi
+    NICECMD="nice"
+    if [ "$(which ionice 2>/dev/null)" != "" ]; then
+        NICECMD="ionice -c 3 $NICECMD"
+    fi
+    alias nn="$NICECMD "
+    NACKIGNORES=" --ignore-file=ext:svg --ignore-file=ext:jpg --ignore-file=ext:png --ignore-file=ext:gif --ignore-file=ext:pdf --ignore-file=ext:avi --ignore-file=ext:mp4 --ignore-file=match:/[.-]min[.]js --ignore-file=match:[.-]min[.]css --ignore-dir=.git --ignore-dir=.svn --ignore-dir=cache --ignore-dir=tmp "
+    if [ "$(which ack-grep 2>/dev/null)" != "" ]; then
+        alias ack="ack-grep"
+        alias nack="$NICECMD ack-grep $NACKIGNORES --ignore-file=ext:sql "
+        alias nacksql="$NICECMD ack-grep $NACKIGNORES "
+    else
+        alias nack="$NICECMD ack $NACKIGNORES --ignore-file=ext:sql "
+        alias nacksql="$NICECMD ack $NACKIGNORES "
+    fi
+    alias ag="ag -Us --ignore='*.min.js' --ignore='*.min.css' --ignore='/cache/' --ignore='/tmp/' "
+    alias grep="grep --color"
+    if [ "$(which wp-cli 2>/dev/null)" != "" ]; then
+        alias wp="wp-cli"
+    fi
+    alias curdate='date +%Y%m%d%H%M%S'
+    alias mysql="mysql --show-warnings --auto-rehash "
+    alias generate_password="openssl rand -base64 37 | cut -c1-16"
+    alias generate_strong_password="head -n 999 /dev/urandom | grep -ao '[[:graph:]]' | tr -d '\n' | grep -o '^.\{32\}' | head -n 1"
+    alias find_latin1_files="find . -type f \( -iname '*.php' -or -iname '*.php3' -or -iname '*.php4' -or -iname '*.php5' -or -iname '*.html' -or -iname '*.shtml' -or -iname '*.htm' -or -iname '*.html' -or -iname '*.inc' -or -iname '*.ini' -or -iname '*.tpl' -or -iname '*.css' -or -iname '*.js' \) -exec bash -c \"file --mime-encoding {} | grep ': iso-8859-1$' | sed 's/: iso-8859-1$//g'\" \;"
+    alias find_latin1_files_php="find . -type f -iname '*.php' -exec bash -c \"file --mime-encoding {} | grep ': iso-8859-1$' | sed 's/: iso-8859-1$//g'\" \;"
+    alias find_latin1_files_html="find . -type f -iname '*.html' -exec bash -c \"file --mime-encoding {} | grep ': iso-8859-1$' | sed 's/: iso-8859-1$//g'\" \;"
+    alias convert_latin1_files_to_utf8="vim \"+set nomore\" \"+bufdo set fileencoding=utf8 | w\" \"+q\" \$(find_latin1_files)"
+    alias convert_latin1_files_to_utf8_php="vim \"+set nomore\" \"+bufdo set fileencoding=utf8 | w\" \"+q\" \$(find_latin1_files_php)"
+    alias convert_latin1_files_to_utf8_html="vim \"+set nomore\" \"+bufdo set fileencoding=utf8 | w\" \"+q\" \$(find_latin1_files_html)"
+    function monip() { echo "# Private"; ALLIPS="$([ -x /bin/ip ] && ip a || /sbin/ifconfig -a)"; echo "$ALLIPS" | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}' | sed 's/\/[0-9]*//g' | sort | uniq; echo; echo "# Public"; dig +short myip.opendns.com @208.67.220.220; } # AKA @resolver1.opendns.com
+    function mesip() { ALLIPS="$([ -x /bin/ip ] && ip a || /sbin/ifconfig -a)"; echo "$ALLIPS" | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}' | sed 's/.*://g' | sed 's/\/[0-9]*//g' | sort | uniq | tr "\\n" " " | sed 's/ $//g' | sed 's/ /\\\|/g'; }
+    function follow_http() { wget --no-check-certificate -O /dev/null -S "$1" 2>&1 | grep 'HTTP/\|Location'; }
+    function highlight () {
+        local GREP="grep"
+        local GGREP="$(which ggrep 2>/dev/null)"
+        if [ -x "$GGREP" ];
+        then
+            GREP="$GGREP"
+        fi
+        $GREP --color "\($1\)\|$" $2
+    }
+    function dirdiff() {
+        if [ "$1" == "" ] || [ "$2" == "" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+            echo
+            echo -e "\033${TERM_COLOR_LIGHT_RED}Usage: $FUNCNAME directory1 directory2 ["override diff command"]\033${TERM_COLOR_NORMAL}"
+            echo
+                cat <<EOF
+    List differences between directories DIRECTORY1 and DIRECTORY2
+    
+    Options: you can override the default diff command used by providing an alternative diff command enclosed with quotes
+    
+    Example: $FUNCNAME directory1 directory2 "nice diff -rwq --exclude=.git --exclude=*.jpg"
+EOF
+            return 1
+        fi
+        local VIMDIFF="vimdiff";
+        local DIFFCMD="${3:- diff -rwq --exclude=.svn --exclude=.git }"
+        LANG=C LANGUAGE=C LC_ALL=C $DIFFCMD "$1" "$2" | sed "s/^Files /$VIMDIFF \"/g" | sed 's/ and /" "/g' | sed 's/ differ/"/g';
+    }
+    function cGET() { curl -s -S -L -k "$1"; }
+    function cHEAD() { curl -s -S -L -I -k "$1"; }
+    function cTIME()  { bash -c "time curl -s -S -k '$1' -o /dev/null" 2>&1 | grep real; }
+    function cTIME2()  { bash -c "time curl -s -S -k --http2 '$1' -o /dev/null" 2>&1 | grep real; }
+    # filter domain from url
+    function ping()  {
+        if [ "$#" == "1" ]; then
+            DOMAINE="$(echo "$1" | sed 's/https\{0,1\}:\/\///g' | sed 's/\/.*//g')";
+            command ping "$DOMAINE";
+        else
+            command ping "$@"
+        fi
+    }
+    function detail() {
+        case "$1" in
+            -h|--help)
+                echo
+                echo -e "\033${TERM_COLOR_LIGHT_RED}Usage: $FUNCNAME [logfile [logfile]]\033${TERM_COLOR_NORMAL}"
+                echo
+                    cat <<EOF
+        tail -F [logfile] with colored output
+EOF
+                return 1
+                ;;
+        esac
+        # OSX portability: use GNU sed
+        local SED="sed"
+        local GSED="$(which gsed 2>/dev/null)"
+        if [ -x "$GSED" ];
+        then
+            SED="$GSED"
+        fi
+        local LOGFILE="$@"
+        if [ "$LOGFILE" == "" ]; then
+            LOGFILE="$HOME/log/error.log"
+        fi
+        tail -F $LOGFILE | $SED -u "s/\\\n/\n/g" | $SED -u "s/\\\x1b\[/\x1b\[/g"
+    }
+
+    ########################
+    # ALIAS et fonctions GIT
+    ########################
+    alias git="git -c color.ui=auto"
+    alias gitst="git status --short"
+    alias gitstu="git status --short -uno"
+    alias gitfa="git fetch --all"
+    alias gitpure="git pull --rebase=preserve"
+    alias gitmerge="git merge --no-ff"
+    function gitmergerebased() {
+        GIT_CURRENT_BRANCH="$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)"
+        if [ "$GIT_CURRENT_BRANCH" == "" ]; then
+            return 1
+        fi
+        if [ "$1" == "" ]; then
+            echo
+            echo -e "\033${TERM_COLOR_LIGHT_RED}Usage: $FUNCNAME <feature_branch>\033${TERM_COLOR_NORMAL}"
+            echo
+                cat <<EOF
+    Cleanly merge <feature_branch> in "$GIT_CURRENT_BRANCH" (eg. "master") by rebasing first
+EOF
+            return 2
+        fi
+        MERGE_FAILED=0
+        git merge --ff-only $1 || MERGE_FAILED=1
+        if [ "$MERGE_FAILED" == "1" ]; then
+            echo
+            echo -e "\033${TERM_COLOR_LIGHT_RED}You should try a rebase first:\033${TERM_COLOR_NORMAL}"
+            cat <<EOF
+    # rebase
+    git checkout $1 && git rebase $GIT_CURRENT_BRANCH
+    # or interactive rebase if you want something cleaner:
+    git checkout $1 && git rebase -i $GIT_CURRENT_BRANCH
+EOF
+            echo
+            echo "Solve conflicts (if any, wash-and-rinse till no conflicts remains) with these:"
+            cat <<EOF
+    # wash...
+    gitmergetool
+    # ... and rinse
+    git rebase --continue
+EOF
+            echo
+            echo -e "\033${TERM_COLOR_LIGHT_GREEN}Then you will be allowed to merge and delete merged branch:\033${TERM_COLOR_NORMAL}"
+            cat <<EOF
+    git checkout $GIT_CURRENT_BRANCH && $FUNCNAME $1
+    git branch -d $1
+EOF
+        else
+            echo
+            cat <<EOF
+Now delete merged branch:
+    git branch -d $1
+EOF
+        fi
+    }
+    GITLG_OPTIONS="--graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' "
+    alias gitunpushed="GIT_CURRENT_BRANCH=\"\$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" && git log origin/\$GIT_CURRENT_BRANCH..HEAD $GITLG_OPTIONS"
+    alias gitunpushedupstream="GIT_CURRENT_BRANCH=\"\$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" && git log upstream/\$GIT_CURRENT_BRANCH..HEAD $GITLG_OPTIONS"
+    alias gitincoming="GIT_CURRENT_BRANCH=\"\$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" && git log ..origin/\$GIT_CURRENT_BRANCH $GITLG_OPTIONS"
+    alias gitincomingupstream="GIT_CURRENT_BRANCH=\"\$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)\" && git log ..upstream/\$GIT_CURRENT_BRANCH $GITLG_OPTIONS"
+    alias gitincomingfiles="gitincoming --name-status --diff-filter=MDACU | grep '^[[:space:]|\\/]*[MDARCU][[:space:]]*' | sed 's/^[[:space:]|\\/]*[MDARCU][[:space:]]*//g' | sort | uniq"
+    alias gitincomingupstreamfiles="gitincoming --name-status --diff-filter=MDACU | grep '^[[:space:]|\\/]*[MDARCU][[:space:]]*' | sed 's/^[[:space:]|\\/]*[MDARCU][[:space:]]*//g' | sort | uniq"
+    alias gitstfiles="gitst | grep '^[[:space:]|\\/]*[MDARCU?]*[[:space:]]*' | sed 's/^[[:space:]|\\/]*[MDARCU?]*[[:space:]]*//g' | sort | uniq"
+    alias gitstashfiles="git stash list --name-status | grep '^[[:space:]]*[MDARCU?]\?[[:space:]]' | sed 's/^[[:space:]*|\\/]*[MDARCU?]*[[:space:]]*//g' | sort | uniq"
+    alias gitincomingconflicts="comm -12 <(gitstfiles) <(gitincomingfiles)"
+    alias gitincomingupstreamconflicts="comm -12 <(gitstfiles) <(gitincomingupstreamfiles)"
+    alias gitstashconflicts="comm -12 <(gitstfiles) <(gitstashfiles)"
+    alias gitlg="git log $GITLG_OPTIONS"
+    alias gitlga="gitlg --all"
+    if [[ "$SBASH_SUFFIX" != "" ]];
+    then
+        SUFFIX="$SBASH_SUFFIX"
+        if [[ "$GROOT_AS_USER" != "" ]]; then
+            SUFFIX="$SBASH_SUFFIX.$GROOT_AS_USER"
+        fi
+        alias vim="vim -u /tmp/.vimrc_$SUFFIX"
+        alias vimdiff="vimdiff -u /tmp/.vimrc_$SUFFIX"
+        export EDITOR="vim -u /tmp/.vimrc_$SUFFIX" # set default editor to vim if not already set
+        function man() { sought=$*; /usr/bin/man $sought | col -b | vim -u /tmp/.vimrc_$SUFFIX -R -c "set nonumber" -c "set syntax=man" -c "set nolist" -c "match" -; }
+        alias_gitdifftool="git -c diff.tool=vimdiff -c difftool.prompt=true -c difftool.vimdiff.cmd='vim -d -u /tmp/.vimrc_$SUFFIX \$LOCAL \$REMOTE' difftool"
+        alias gitmergetool="git -c mergetool.keepBackup=false -c merge.tool=diffconflicts -c mergetool.diffconflicts.cmd='/usr/bin/env bash /tmp/.diffconflicts_$SUFFIX \"vim -u /tmp/.vimrc_$SUFFIX\" \$BASE \$LOCAL \$REMOTE \$MERGED && echo \"<ctrl+c> to abort, <enter> to continue...\" && read' mergetool"
+    else
+        export EDITOR="vim" # set default editor to vim if not already set
+        function man() { sought=$*; /usr/bin/man $sought | col -b | vim -R -c "set nonumber" -c "set syntax=man" -c "set nolist" -c "match" -; }
+        # use "read" to wait for user input between each diff so we can abort
+        alias_gitdifftool="git -c diff.tool=vimdiff -c difftool.prompt=true -c difftool.vimdiff.cmd='vim -d \$LOCAL \$REMOTE' difftool"
+        alias gitmergetool="git -c mergetool.keepBackup=false -c merge.tool=diffconflicts -c mergetool.diffconflicts.cmd='/usr/bin/env bash ~/bin/diffconflicts vim \$BASE \$LOCAL \$REMOTE \$MERGED && echo \"<ctrl+c> to abort, <enter> to continue...\" && read' mergetool"
+    fi
+    alias gitdifftool="$alias_gitdifftool"
+    function gitshowtool() {
+        REVISION='HEAD';
+        if [[ "$1" != "" ]]; then REVISION="$1"; fi
+        shift;
+        git -c diff.tool=vimdiff -c difftool.prompt=true difftool $REVISION~ $REVISION $@
+    }
+    function gitdiffwith() {
+        GIT_CURRENT_BRANCH="$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)"
+        GIT_OTHER_BRANCH="$1"
+        shift # shift so that we can inject more parameters by using the $@ parameter
+        git log $GIT_OTHER_BRANCH..$GIT_CURRENT_BRANCH \
+            --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' $@
+    }
+    function ssh_fingerprints {
+        local file="${1:-$HOME/.ssh/authorized_keys}"
+        while read l; do
+            [[ -n $l && ${l###} = $l ]] && ssh-keygen -l -f /dev/stdin <<<$l
+        done < "${file}"
+    }
+    # sudo et SSH en transportant la configuration BASH et VIM
+    function groot() {
+        if [ "$1" != "" ]; then
+            GROOT_AS_USER="$1"
+            sudo cp -f "/tmp/.bashrc_$SBASH_SUFFIX" "/tmp/.bashrc_$SBASH_SUFFIX.$GROOT_AS_USER"
+            sudo cp -f "/tmp/.vimrc_$SBASH_SUFFIX" "/tmp/.vimrc_$SBASH_SUFFIX.$GROOT_AS_USER"
+            sudo cp -f "/tmp/.diffconflicts_$SBASH_SUFFIX" "/tmp/.diffconflicts_$SBASH_SUFFIX.$GROOT_AS_USER"
+            sudo chown "$GROOT_AS_USER" "/tmp/.bashrc_$SBASH_SUFFIX.$GROOT_AS_USER"
+            sudo chown "$GROOT_AS_USER" "/tmp/.vimrc_$SBASH_SUFFIX.$GROOT_AS_USER"
+            sudo chown "$GROOT_AS_USER" "/tmp/.diffconflicts_$SBASH_SUFFIX.$GROOT_AS_USER"
+            sudo -u "$GROOT_AS_USER" "GROOT_AS_USER=$GROOT_AS_USER" bash --rcfile /dev/null -c "cd \"\$HOME\"; bash --rcfile \"/tmp/.bashrc_$SBASH_SUFFIX.$GROOT_AS_USER\" ; rm -f \"/tmp/.bashrc_$SBASH_SUFFIX.$GROOT_AS_USER\" \"/tmp/.vimrc_$SBASH_SUFFIX.$GROOT_AS_USER\" \"/tmp/.diffconflicts_$SBASH_SUFFIX.$GROOT_AS_USER\" "
+        else
+            if [ "$SBASH_SUFFIX" != "" ]; then
+                sudo bash --rcfile "/tmp/.bashrc_$SBASH_SUFFIX"
+            else
+                sudo bash --rcfile "~/.bashrc_common"
+            fi
+        fi
+    }
+    function screen() {
+        if [ "$#" == "0" ]; then
+            if [ "$SBASH_SUFFIX" != "" ]; then
+                SBASH_INSCREEN=" screen" command screen bash --rcfile "/tmp/.bashrc_$SBASH_SUFFIX";
+            else
+                SBASH_INSCREEN=" screen" command screen bash --rcfile "~/.bashrc_common";
+            fi
+        else
+            command screen "$@";
+        fi
+    }
+    # disable timeout when using gscreen
+    if [ "$SBASH_INSCREEN" != "" ]; then
+        export TMOUT=""
+    fi;
+    # usage: sbash <[user@]host> [port]
+    function sbash() {
+        case "$1" in
+            -h|--help|"")
+                echo
+                echo -e "\033${TERM_COLOR_LIGHT_RED}Usage: $FUNCNAME <[user@]host> [port]\033${TERM_COLOR_NORMAL}"
+                echo
+                    cat <<EOF
+        ssh alias that brings configuration (mainly bash, vim and git) with you when connecting
+EOF
+                return 1
+                ;;
+        esac
+        HOST="$1"
+        PORT=22
+        if [ "$2" != "" ]; then
+            PORT="$2";
+        fi;
+        if [[ "$SBASH_SUFFIX" == "" ]];
+        then
+            SBASH_SUFFIX="$RANDOM"
+            echo "SBASH_SUFFIX=$SBASH_SUFFIX" > /tmp/.bashrc_$SBASH_SUFFIX
+            cat ~/.dotfiles/pa/.bashrc_common >> /tmp/.bashrc_$SBASH_SUFFIX
+            cp -f ~/.dotfiles/pa/.vimrc_common /tmp/.vimrc_$SBASH_SUFFIX
+            cp -f ~/.dotfiles/pa//diffconflicts /tmp/.diffconflicts_$SBASH_SUFFIX
+            chmod 700 /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX
+        fi
+        #echo -ne "\r."
+        # ask for password only once in a lifetime
+        #SSH_COPY_ID_FAILED=1
+        #for TRYING in 1 2 3
+        #do
+        ssh-copy-id -o ControlMaster=yes -p $PORT $1 2>/dev/null
+        SSH_COPY_ID_FAILED=$?
+        if [ "$SSH_COPY_ID_FAILED" != "0" ]; then
+            echo "ssh-copy-id failed... sorry";
+            #return 1;
+        else
+            echo -ne "\r."
+        fi
+        #done
+        # connect only once for scp
+        scp -P $PORT -Cqp /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX $1:/tmp/ || return 2;
+        echo -e "\r.."
+        #SBASH_CMD="ionice -c 3 nice bash --rcfile /tmp/.bashrc_$SBASH_SUFFIX ; rm -f /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX "
+        SBASH_CMD="bash --rcfile /tmp/.bashrc_$SBASH_SUFFIX ; rm -f /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX "
+        ssh -p $PORT -C -t "$HOST" "$SBASH_CMD"
+        rm -f /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX
+        unset SBASH_SUFFIX
+    }
+    function checkzone() {
+        DOMAINE="$(echo "$1" | sed 's/.*db\.//g')" bash -c 'sudo /usr/sbin/named-checkzone "$DOMAINE" /etc/bind/db."$DOMAINE" | grep -v "found SPF/TXT record but no SPF/SPF record found"'
+    }
+    function unbanip() {
+        function version_gt() { test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; }
+        IP="$1"
+        if [ "$IP" == "" ]; then
+            echo
+            echo -e "\033${TERM_COLOR_LIGHT_RED}Usage: $FUNCNAME <IP>\033${TERM_COLOR_NORMAL}"
+            echo
+                cat <<EOF
+    unban an IP from all fail2ban jails
+EOF
+            return 1
+        fi
+        sudo echo -n # ask for root password once
+        FAIL2BAN_VERSION="$(sudo fail2ban-client --version | grep '^Fail2Ban v' | sed 's/Fail2Ban v//g')"
+        FAIL2BAN_RECENT="$(version_gt 0.8.8 $FAIL2BAN_VERSION; echo $?)"
+        for JAIL in $(sudo fail2ban-client status | grep "Jail list" | sed -e 's/^[^:]\+:[ \t]\+//' | sed 's/,//g'); do
+            if [ "$FAIL2BAN_RECENT" == "1" ]; then
+                sudo fail2ban-client set $JAIL unbanip $IP 2>&1 | grep -v "$IP is not banned";
+            else
+                sudo iptables -D fail2ban-$JAIL -s $IP -j DROP 2>&1 | grep -v 'iptables: Bad rule' && sleep 5 || echo "$IP is not banned";
+            fi
+        done
+        return 0;
+    }
+
+    # remet chaque utilisateur dans son $HOME par défaut
+    #cd $HOME
+
+fi;
+

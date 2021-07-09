@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+#
+# A better mergetool for Git
+#
+# LOCAL refers to "your changes"
+# REMOTE refers to "incoming changes"
+# BASE refers to the "previous know version" (ie. the common ancestor for "incoming changes" and "your changes")
+#
+# Tab1 is a two-way diff of just the conflicts.
+# Resolve the conflicts here (in the left window) and save the file.
+#     +-----------------------------------------------------------------+
+#     |  LOCAL Conflicts (solve here)  |        REMOTE conflicts        |
+#     +-----------------------------------------------------------------+
+#
+# Tab2 shows incoming changes
+#     +-----------------------------------------------------------------+
+#     |          BASE file             |        REMOTE file             |
+#     +-----------------------------------------------------------------+
+#
+# Tab3 shows local changes
+#     +-----------------------------------------------------------------+
+#     |          BASE file             |        REMOTE file             |
+#     +-----------------------------------------------------------------+
+#
+# Workflow:
+#
+# 1.    Save your changes to the "LOCAL Conflicts" window
+#       (first window in first tab; also the only file that isn't read-only)
+#
+# 2.    The LOCAL, BASE, and REMOTE versions of the file are available in the
+#       next tabs if you want to look at them.
+#
+# 3.    To PROCESS the merge, use :wqa
+#       To ABORT   the merge, use :cq
+#
+# NOTE: Use :cq to abort the merge and exit Vim with an error code.
+
+if [[ -z $@ || $# != "5" ]] ; then
+    echo -e "Usage: $0 \$EDITOR \$BASE \$LOCAL \$REMOTE \$MERGED"
+    exit 1
+fi
+
+cmd=$1
+BASE="$2"
+LOCAL="$3"
+REMOTE="$4"
+MERGED="$5"
+printf -v QBASE '%q' "${BASE}"
+printf -v QLOCAL '%q' "${LOCAL}"
+printf -v QREMOTE '%q' "${REMOTE}"
+printf -v QMERGED '%q' "${MERGED}"
+
+# Use gnu sed on OSX (brew install gnu-sed)
+GNU_SED="gsed"
+type $GNU_SED >/dev/null 2>&1 || GNU_SED="sed"
+
+# Temporary files for left and right side
+MERGED_PATH="$(dirname ${MERGED})"
+MERGED_FILE="$(basename ${MERGED})"
+RCONFL="${MERGED_PATH}/.CONFLICTS_REMOTE.$$.${MERGED_FILE}"
+LCONFL="${MERGED_PATH}/.CONFLICTS_LOCAL.$$.${MERGED_FILE}"
+
+# Always delete our temp files; Git will handle it's own temp files
+trap 'rm -f "'"${RCONFL}"'" "'"${LCONFL}"'"' SIGINT SIGTERM EXIT
+
+# Remove the conflict markers for each 'side' and put each into a temp file
+$GNU_SED -r -e '/^<<<<<<< /,/^=======\r?$/d' -e '/^>>>>>>> /d' "${MERGED}" > "${RCONFL}"
+$GNU_SED -r -e '/^=======\r?$/,/^>>>>>>> /d' -e '/^<<<<<<< /d' "${MERGED}" > "${LCONFL}"
+
+# Fire up vimdiff
+$cmd -f -R -d "${LCONFL}" "${RCONFL}" \
+    -c ":silent set noro" \
+    -c ":silent tabe $QREMOTE" -c ":silent vert diffs $QBASE" \
+    -c ":silent tabe $QLOCAL" -c ":silent vert diffs $QBASE" \
+    -c ":silent tabfir"
+
+EC=$?
+
+# Overwrite $MERGED only if vimdiff exits cleanly.
+if [[ $EC == "0" ]] ; then
+    cat "${LCONFL}" > "${MERGED}"
+fi
+
+exit $EC
+

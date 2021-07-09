@@ -21,10 +21,10 @@ echo -e "${green}* CREATION DES LIENS SYMBOLIQUES${default}"
 echo -e "${green}************************************************${default}"
 exit
 ln -s $HOME/.dotfiles/gcalcli/.gcalclirc $HOME/
-ln -s $HOME/dotfiles/autorandr $HOME/.config/
-ln -s $HOME/dotfiles/i3 $HOME/.config/
-ln -s $HOME/dotfiles/i3status $HOME/.config/
-ln -s $HOME/dotfiles/nvim $HOME/.config/
+ln -s $HOME/.dotfiles/autorandr $HOME/.config/
+ln -s $HOME/.dotfiles/i3 $HOME/.config/
+ln -s $HOME/.dotfiles/i3status $HOME/.config/
+ln -s $HOME/.dotfiles/nvim $HOME/.config/
 
 echo -e "${green}************************************************${default}"
 echo -e "${green}* CREATION DES CRONTABS${default}"

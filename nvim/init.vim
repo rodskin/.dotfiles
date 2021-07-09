@@ -10,12 +10,19 @@ nnoremap <leader>a :Ag
 " nnoremap <leader>T :call ToggleNumber()
 " nnoremap <leader>N :call NoNumbers()
 
+set colorcolumn=82
+hi cursorline guibg=#3a3a3a " highlight bg color of current line
+hi cursorcolumn guibg=#3a3a3a " highlight cursor
+hi ColorColumn guibg=#2e2e2e
+hi ExtraWhitespace guibg=#550000
+hi SpecialKey term=bold ctermfg=DarkCyan guifg=#555555
+set backspace=indent,eol,start " backspace for dummys
+set showmatch " show matching brackets/parenthesis
 
 " NerdTree
 map <C-n> :NERDTreeToggle<CR>
-autocmd vimenter * NERDTree
-autocmd BufWinEnter * NERDTreeMirror
 nmap <silent> <F2> :NERDTreeToggle<CR>
+let g:NERDTreeShowHidden=1
 
 " TABS
 " Go to tab by number
