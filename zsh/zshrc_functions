@@ -133,6 +133,12 @@ function dockercomposessh()
     docker exec -it $(docker inspect -f '{{.Name}}' $(docker-compose ps -q) | cut -c2-) /bin/bash
 }
 
+function dockerlogs()
+{
+    docker logs --follow $(docker inspect -f '{{.Name}}' $(docker-compose ps -q)  | cut -c2-)
+}
+
+
 function myaliases ()
 {
     if [ -z $1 ]; then
