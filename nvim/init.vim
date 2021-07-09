@@ -13,6 +13,9 @@ nnoremap <leader>a :Ag
 
 " NerdTree
 map <C-n> :NERDTreeToggle<CR>
+autocmd vimenter * NERDTree
+autocmd BufWinEnter * NERDTreeMirror
+nmap <silent> <F2> :NERDTreeToggle<CR>
 
 " TABS
 " Go to tab by number
@@ -68,6 +71,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+set ignorecase
 
 let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
 au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
