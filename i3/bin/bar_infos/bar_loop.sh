@@ -9,6 +9,7 @@ echo '[]'                   # We send an empty first array of blocks to make the
 do
 	echo -n ",["
     first
+    mysmoking
     myepic
     myspotify
     mydocker
