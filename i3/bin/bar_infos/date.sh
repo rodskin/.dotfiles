@@ -31,6 +31,25 @@ mybirthday() {
     echo -n "},"
 }
 
+mytrain() {
+    local bg=$bg_train
+    today=$(date +'%Y-%m-%d')
+    tomorrow=$(date +'%Y-%m-%d' -d "+2 days")
+    train=`gcalcli agenda ${today} ${tomorrow} | grep 'Gare'`
+    bg_separator_previous=$bg
+    full_text=""
+    if [ ! -z "$train" ]; then
+        full_text=" $icon_train "
+    fi
+    echo -n "{"
+    echo -n "\"name\":\"id_train\","
+    echo -n "\"full_text\":\"$full_text\","
+    echo -n "\"color\":\"$color_train\","
+    echo -n "\"background\":\"$bg\","
+    common
+    echo -n "},"
+}
+
 myagenda() {
     local bg=$bg_calendar
     local today=$(date +'%Y-%m-%dT%H:%M:%S')

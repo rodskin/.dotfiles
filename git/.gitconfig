@@ -1,0 +1,11 @@
+[credential]
+	helper = store
+[pull]
+	rebase = false
+[diff]
+	submodule = log
+[status]
+	submoduleSummary = true
+[alias]
+	spush = push --recurse-submodules=on-demand
+    ignore = "!f() { echo $1 >> .gitignore; }; f"

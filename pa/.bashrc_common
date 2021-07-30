@@ -484,3 +484,6 @@ EOF
 
 fi;
 
+function gitbare () {
+    sudo -u gitlab-flux git clone --bare $1
+}
