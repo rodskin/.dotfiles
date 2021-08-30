@@ -1,0 +1,92 @@
+#!/bin/bash
+# post-receive
+
+# COLORS
+default="\033[39m"
+black="\033[30m"
+red="\033[0;31m"
+green="\033[32m"
+yellow="\033[33m"
+blue="\033[34m"
+magenta="\033[35m"
+cyan="\033[36m"
+light_gray="\033[37m"
+dark_gray="\033[90m"
+light_red="\033[91m"
+light_green="\033[92m"
+light_yellow="\033[93m"
+light_blue="\033[94m"
+light_magenta="\033[95m"
+light_cyan="\033[96m"
+white="\033[97m"
+
+BRANCHE='main'
+if [ -z $BRANCHE ]
+then
+    echo 'aucune branche à déployer'
+    exit 1
+fi
+
+BASE_PATH="/opt"
+GIT_PATH=$BASE_PATH"/gitbare/monitoring.git"
+SAVE_PATH=$BASE_PATH"/gitbare/saves/monitoring"
+PROD_CONFIG_PATH=$BASE_PATH"/config"
+DEPLOY_PATH=$BASE_PATH"/gitbare/deploy/monitoring"
+WWW_PATH="/var/www/html/monitoring"
+NOW=$(date +%Y%m%d%H%M)
+
+declare -a cleans=(
+    '.git'
+    '.gitignore'
+    'README.md'
+    'readme.md'
+);
+
+function saveCurrentRelease {
+    echo -e "${yellow}## save current release${default}"
+    cd $WWW_PATH
+    tar -pczf $SAVE_PATH'/backup_'$NOW'.tar.gz' .
+}
+
+function checkoutRelease {
+    echo -e "${yellow}## checkout release ${BRANCHE}${default}"
+    git --work-tree=$DEPLOY_PATH --git-dir=$GIT_PATH checkout -f $BRANCHE
+}
+
+
+function syncFromDeploy {
+    cd $DEPLOY_PATH'/'$FOLDER_TO_COMPILE
+
+    echo -e "${yellow}## copy from deploy${default}"
+    cd $DEPLOY_PATH
+
+    echo "   rsync from "$DEPLOY_PATH" to "$WWW_PATH
+    rsync -avz --delete \
+      #--exclude file_to_exclude
+    . $WWW_PATH
+}
+
+function cleanRelease {
+    echo -e "${yellow}$C_STEP ## clean new release${default}"
+    cd $WWW_PATH
+    for clean in "${cleans[@]}"
+    do
+        rm -rf $clean
+        echo -e "$C_NORMAL  clean "$clean
+    done
+}
+
+function copyProdConfig {
+    echo -e "${yellow}## copy files/folder from shared${default}"
+    cd $PROD_CONFIG_PATH
+    echo "   copy * from ${PROD_CONFIG_PATH} to ${WWW_PATH}/include"
+    cp -R * $WWW_PATH'/include'
+}
+
+echo -e "${green}## START ##${default}"
+saveCurrentRelease
+checkoutRelease
+syncFromDeploy
+cleanRelease
+#copyProdConfig
+echo -e "${green}## END ##${default}"

@@ -335,6 +335,7 @@ EOF
             SUFFIX="$SBASH_SUFFIX.$GROOT_AS_USER"
         fi
         alias vim="vim -u /tmp/.vimrc_$SUFFIX"
+        alias vi="vim -u /tmp/.vimrc_$SUFFIX"
         alias vimdiff="vimdiff -u /tmp/.vimrc_$SUFFIX"
         export EDITOR="vim -u /tmp/.vimrc_$SUFFIX" # set default editor to vim if not already set
         function man() { sought=$*; /usr/bin/man $sought | col -b | vim -u /tmp/.vimrc_$SUFFIX -R -c "set nonumber" -c "set syntax=man" -c "set nolist" -c "match" -; }
