@@ -84,5 +84,7 @@ set ignorecase
 let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
 au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 
+" Copy all file
+nnoremap <leader>c :call CopyAll()<CR>
 
 source ~/.config/nvim/myfunctions.vim

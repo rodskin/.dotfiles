@@ -12,3 +12,7 @@ let @x=':%s/</\r</g^M^[gg=G'
 function! NoNumbers()
     set invnumber
 endfunc
+
+function! CopyAll()
+    :%y+
+endfunc
