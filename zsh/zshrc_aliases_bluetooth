@@ -1,2 +1,4 @@
 alias pup="~/.dotfiles/i3/bin/punker_connect"
 alias pdn="~/.dotfiles/i3/bin/punker_disconnect"
+alias bluetoothon="sudo systemctl start bluetooth.service"
+alias bluetoothoff="sudo systemctl stop bluetooth.service"
