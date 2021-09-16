@@ -1,2 +1,0 @@
-alias today="date +'%Y-%m-%d'"
-alias mycalendar="gcal -K --starting-day=Monday --with-week-number .+ && gcalcli agenda `date +'%Y-%m-%d'` `date +'%Y-%m-%d' -d "+15 days"`"

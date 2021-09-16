@@ -1,4 +1,0 @@
-alias ubins="sudo apt install"
-alias ubupd="sudo apt update"
-alias ubupg="sudo apt-get upgrade"
-alias ubdupg="sudo apt-get upgrade --dry-run"

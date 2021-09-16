@@ -1,3 +1,0 @@
-#!/bin/sh
-brightness=xrandr --verbose | grep "Brightness" | xargs | cut -c12-15
-

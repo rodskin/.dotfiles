@@ -1,3 +1,0 @@
-alias vup="sudo wg-quick up ~/vpn/dbpn.conf"
-alias vdn="sudo wg-quick down ~/vpn/dbpn.conf"
-alias vmy="sudo openvpn ~/vpn/fgilles_openvpn/config/client-vacuity-vlq16-iliad-fr.ovpn"
