@@ -9,7 +9,7 @@ function dot_mes() {
 }
 
 function dot_mes_install() {
-    dot_mes ${green} "--> Installing ${1}"
+    dot_mes ${green} "--> Installing ${1}" ${default}
 }
 
 function dot_mes_update() {
