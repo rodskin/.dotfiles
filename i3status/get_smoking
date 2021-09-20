@@ -12,5 +12,5 @@ if [ "$NB_DAYS" -lt 1 ]; then
     echo "0€"
 else
     SAVED_MONEY=$(echo "scale=2; $OFFSET+$NB_DAYS*$CIGARETTE_PRICE*($SMOKED_CIGARETTES_PER_DAY/$CIGARETTES_IN_PACK)" | bc)
-    echo "${NB_DAYS}j - $SAVED_MONEY€"
+    echo "${NB_DAYS}j : $SAVED_MONEY€"
 fi
