@@ -20,6 +20,7 @@ Plug 'vim-syntastic/syntastic'
 Plug 'yegappan/mru'
 Plug 'chrisbra/SudoEdit.vim'
 Plug 'drmingdrmer/vim-tabbar'
+Plug 'ap/vim-css-color'
 
 " Plug 'ycm-core/YouCompleteMe'
 Plug 'ryanoasis/vim-devicons'

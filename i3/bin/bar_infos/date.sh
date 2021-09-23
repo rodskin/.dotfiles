@@ -50,6 +50,25 @@ mytrain() {
     echo -n "},"
 }
 
+mybook() {
+    local bg=$bg_book
+    today=$(date +'%Y-%m-%d')
+    tomorrow=$(date +'%Y-%m-%d' -d "+2 days")
+    book=`gcalcli agenda ${today} ${tomorrow} | grep 'Books'`
+    bg_separator_previous=$bg
+    full_text=""
+    if [ ! -z "$book" ]; then
+        full_text=" $icon_book "
+    fi
+    echo -n "{"
+    echo -n "\"name\":\"id_book\","
+    echo -n "\"full_text\":\"$full_text\","
+    echo -n "\"color\":\"$color_book\","
+    echo -n "\"background\":\"$bg\","
+    common
+    echo -n "},"
+}
+
 myagenda() {
     local bg=$bg_calendar
     local today=$(date +'%Y-%m-%dT%H:%M:%S')

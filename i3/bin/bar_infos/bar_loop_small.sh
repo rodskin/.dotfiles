@@ -21,6 +21,8 @@ do
     mydate
     myagenda
     mybirthday
+    mytrain
+    mybook
     bluetooth
     volume
     battery0
