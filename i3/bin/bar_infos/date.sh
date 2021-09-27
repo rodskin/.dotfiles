@@ -16,7 +16,7 @@ mybirthday() {
     local bg=$bg_birthday
     today=$(date +'%Y-%m-%d')
     tomorrow=$(date +'%Y-%m-%d' -d "+2 days")
-    birthday=`gcalcli agenda ${today} ${tomorrow} | grep 'Anniversaire'`
+    birthday=`gcalcli agenda ${today} ${tomorrow} | grep -i 'Anniversaire'`
     bg_separator_previous=$bg
     full_text=""
     if [ ! -z "$birthday" ]; then
@@ -35,7 +35,7 @@ mytrain() {
     local bg=$bg_train
     today=$(date +'%Y-%m-%d')
     tomorrow=$(date +'%Y-%m-%d' -d "+2 days")
-    train=`gcalcli agenda ${today} ${tomorrow} | grep 'Gare'`
+    train=`gcalcli agenda ${today} ${tomorrow} | grep -i 'Gare'`
     bg_separator_previous=$bg
     full_text=""
     if [ ! -z "$train" ]; then
@@ -54,7 +54,7 @@ mybook() {
     local bg=$bg_book
     today=$(date +'%Y-%m-%d')
     tomorrow=$(date +'%Y-%m-%d' -d "+2 days")
-    book=`gcalcli agenda ${today} ${tomorrow} | grep 'Books'`
+    book=`gcalcli agenda ${today} ${tomorrow} | grep -i 'Books'`
     bg_separator_previous=$bg
     full_text=""
     if [ ! -z "$book" ]; then

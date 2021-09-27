@@ -1,0 +1,2 @@
+alias printable_png="mogrify -bordercolor black -border 36x36 *.png"
+alias printable_jpg="mogrify -bordercolor black -border 36x36 *.jpg"
