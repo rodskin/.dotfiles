@@ -12,4 +12,5 @@ source $HOME/.dotfiles/zsh/zshrc_aliases_ubuntu
 source $HOME/.dotfiles/zsh/zshrc_aliases_dates
 source $HOME/.dotfiles/zsh/zshrc_aliases_nb
 source $HOME/.dotfiles/zsh/zshrc_aliases_imgmgk
+source $HOME/.dotfiles/zsh/zshrc_aliases_tts
 source $HOME/.dotfiles/zsh/zshrc_aliases_private
