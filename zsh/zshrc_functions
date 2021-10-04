@@ -159,10 +159,67 @@ function myaliases ()
 
 function splitimage ()
 {
-    echo 'image source'
-    read image_src
-    echo "$image_src"
-    # convert water_1.png -crop 4x3@ +repage +adjoin cutted_%d.png
+    OPT_IMAGE="--image"
+    OPT_COLS="--cols"
+    OPT_ROWS="--rows"
+    OPT_OUTPUT="--output"
+
+    IMAGE=""
+    COLS=0
+    ROWS=0
+
+    # parse parameters
+    while [ $# -ne 0 ]
+    do
+        case "$1" in
+            $OPT_IMAGE=*)
+                INDEX=${#OPT_IMAGE}
+                IMAGE="${1:$INDEX+1}"
+                ;;
+            $OPT_COLS=*)
+                INDEX=${#OPT_COLS}
+                COLS="${1:$INDEX+1}"
+                ;;
+            $OPT_ROWS=*)
+                INDEX=${#OPT_ROWS}
+                ROWS="${1:$INDEX+1}"
+                ;;
+            $OPT_OUTPUT=*)
+                INDEX=${#OPT_OUTPUT}
+                OUTPUT="${1:$INDEX+1}/"
+                ;;
+            -h|--help|*)
+                cat <<EOF
+    Découpe une image en lignes et colonnes identiques
+    Usage
+    =====
+        splitimage --image="" --rows=X --cols=Y [--output=""]
+    Options
+    =======
+        $OPT_IMAGE
+            chemin de l'image à découper
+        $OPT_ROWS
+            Nombre de lignes de l'image
+        $OPT_COLS
+            Nombre de colonnes de l'image
+        $OPT_OUTPUT
+            chemin des images finales
+EOF
+                return 1
+                ;;
+        esac
+        shift
+    done
+    if [ -z "$IMAGE" -o "$COLS" -eq 0 -o "$ROWS" -eq 0 ]; then
+        splitimage -h
+        return 0
+    fi
+    convert "$IMAGE" -crop "$COLS"x$ROWS@ +repage +adjoin "$OUTPUT"cutted_%d.png
+}
+
+function imageto64 ()
+{
+    base64 -w 0 "$1" > "$1".base64
 }
 
 function sbash() {
