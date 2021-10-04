@@ -28,6 +28,7 @@ do
     mybirthday
     mytrain
     mybook
+    myjdr
     bluetooth
     volume
     battery0

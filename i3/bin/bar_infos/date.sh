@@ -69,6 +69,25 @@ mybook() {
     echo -n "},"
 }
 
+myjdr() {
+    local bg=$bg_jdr
+    today=$(date +'%Y-%m-%d')
+    tomorrow=$(date +'%Y-%m-%d' -d "+2 days")
+    jdr=`gcalcli agenda ${today} ${tomorrow} | grep -i 'JDR'`
+    bg_separator_previous=$bg
+    full_text=""
+    if [ ! -z "$jdr" ]; then
+        full_text=" $icon_jdr "
+    fi
+    echo -n "{"
+    echo -n "\"name\":\"id_jdr\","
+    echo -n "\"full_text\":\"$full_text\","
+    echo -n "\"color\":\"$color_jdr\","
+    echo -n "\"background\":\"$bg\","
+    common
+    echo -n "},"
+}
+
 myagenda() {
     local bg=$bg_calendar
     local today=$(date +'%Y-%m-%dT%H:%M:%S')
