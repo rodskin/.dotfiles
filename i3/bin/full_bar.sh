@@ -24,6 +24,7 @@ source ~/.config/i3/bin/bar_infos/volume.sh
 source ~/.config/i3/bin/bar_infos/systemupdate.sh
 source ~/.config/i3/bin/bar_infos/logout.sh
 source ~/.config/i3/bin/bar_infos/smoking.sh
+source ~/.config/i3/bin/bar_infos/kickstarter.sh
 
 # Now send blocks with information forever:
 source ~/.config/i3/bin/bar_infos/bar_loop.sh

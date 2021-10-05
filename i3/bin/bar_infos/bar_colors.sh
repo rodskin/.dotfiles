@@ -3,6 +3,7 @@
 bg_bar_color="#000000"
 bg_separator_previous="#000000"
 bg_inactive="#424242"
+color_inactive="#FFFFFF"
 
 bg_spotify="#1DB954"
 color_spotify="#FFFFFF"
@@ -48,3 +49,5 @@ bg_bluetooth="#0484FC"
 color_bluetooth="#FFFFFF"
 bg_smoking="#51361A"
 color_smoking="#FFFFFF"
+bg_kickstarter="#FFFFFF"
+color_kickstarter="#05CE78"

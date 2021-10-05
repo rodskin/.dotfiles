@@ -11,6 +11,7 @@ do
     first
     mysmoking
     myepic
+    mykickstarter
     myspotify
     mydocker
     myvpn_on
