@@ -46,3 +46,10 @@ echo -e "${green}************************************************${default}"
 echo -e "${green}* CREATION DES FICHIERS DE CONFIG${default}"
 echo -e "${green}************************************************${default}"
 echo "source ~/.dotfiles/zsh/zshrc_root" >> $HOME/.zshrc
+
+
+echo -e "${green}************************************************${default}"
+echo -e "${green}* AJOUT DE LA CONFIG VIM POUR ROOT${default}"
+echo -e "${green}************************************************${default}"
+sudo cp pa/.vimrc_common /root/
+sudo sh -c 'echo "source /root/.vimrc_common" >>/root/.vimrc'
