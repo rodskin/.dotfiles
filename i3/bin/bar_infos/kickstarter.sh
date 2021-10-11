@@ -14,7 +14,7 @@ mykickstarter() {
   bg_separator_previous=$bg
   echo -n "{"
   echo -n "\"name\":\"id_kickstarter\","      
-  echo -n "\"full_text\":\" ${icon}\","
+  echo -n "\"full_text\":\" ${icon} \","
   echo -n "\"color\":\"$icon_color\","
   echo -n "\"background\":\"$bg\","
   common
