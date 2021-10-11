@@ -22,8 +22,16 @@ do
     elif [[ $line == *"name"*"ip_local"* ]]; then
         alacritty --hold -e ~/.config/i3status/click_ip.sh &
   
+  # EPIC
     elif [[ $line == *"name"*"id_epic"* ]]; then
         xdg-open https://www.epicgames.com/store/fr/free-games > /dev/null &
+
+  # KICKSTARTER
+    elif [[ $line == *"name"*"id_kickstarter2"* ]]; then
+        f="${HOME}/.dotfiles/i3/bin/bar_infos/kickstarter_projects.txt"
+        if [[ -s $f ]]; then
+            alacritty --hold -e ~/.config/i3status/click_kickstarter.sh &
+        fi
 
   # CPU
     elif [[ $line == *"name"*"id_disk_mem_cpu"* ]]; then
