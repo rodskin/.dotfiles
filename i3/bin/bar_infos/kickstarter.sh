@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 mykickstarter() {
   local bg=$bg_inactive
   local icon=$icon_kickstarter

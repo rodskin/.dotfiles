@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # click events
 while read line;
@@ -27,7 +27,7 @@ do
         xdg-open https://www.epicgames.com/store/fr/free-games > /dev/null &
 
   # KICKSTARTER
-    elif [[ $line == *"name"*"id_kickstarter2"* ]]; then
+    elif [[ $line == *"name"*"id_kickstarter"* ]]; then
         f="${HOME}/.dotfiles/i3/bin/bar_infos/kickstarter_projects.txt"
         if [[ -s $f ]]; then
             alacritty --hold -e ~/.config/i3status/click_kickstarter.sh &
