@@ -33,6 +33,7 @@ Plug 'phpactor/phpactor' ,  {'for': 'php', 'branch': 'master', 'do': 'composer i
 Plug 'vim-php/phpctags'
 Plug 'phpactor/ncm2-phpactor'
 Plug 'rayburgemeestre/phpfolding.vim'
+Plug 'preservim/tagbar'
 
 " Require ncm2 and this plugin
 Plug 'ncm2/ncm2'

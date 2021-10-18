@@ -24,6 +24,9 @@ map <C-n> :NERDTreeToggle<CR>
 nmap <silent> <F2> :NERDTreeToggle<CR>
 let g:NERDTreeShowHidden=1
 
+" Tagbar
+nmap <F8> :TagbarToggle<CR>
+
 " TABS
 " Go to tab by number
 noremap <leader>1 1gt
@@ -86,5 +89,11 @@ au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/cta
 
 " Copy all file
 nnoremap <leader>f :call CopyAll()<CR>
+
+" Disable aerrows
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
 
 source ~/.config/nvim/myfunctions.vim
