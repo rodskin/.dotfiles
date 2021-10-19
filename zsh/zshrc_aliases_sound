@@ -1,0 +1,2 @@
+alias casque='pacmd set-default-sink 5'
+alias cgain='amixer -c 0 -- sset Speaker playback -26dB'
