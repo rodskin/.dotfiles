@@ -90,10 +90,5 @@ au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/cta
 " Copy all file
 nnoremap <leader>f :call CopyAll()<CR>
 
-" Disable aerrows
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
-
+source ~/.config/nvim/hardmode.vim
 source ~/.config/nvim/myfunctions.vim
