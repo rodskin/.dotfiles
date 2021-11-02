@@ -271,3 +271,13 @@ EOF
     rm -f /tmp/.{bashrc,vimrc,diffconflicts}_$SBASH_SUFFIX
     unset SBASH_SUFFIX
 }
+
+rpg () {
+    rpg-cli "$@"
+    cd "$(rpg-cli pwd)"
+}
+
+rpgcd () {
+    rpg-cli cd "$@"
+    builtin cd "$(rpg-cli pwd)"
+}

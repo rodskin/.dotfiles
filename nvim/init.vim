@@ -90,5 +90,5 @@ au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/cta
 " Copy all file
 nnoremap <leader>f :call CopyAll()<CR>
 
-source ~/.config/nvim/hardmode.vim
+"source ~/.config/nvim/hardmode.vim
 source ~/.config/nvim/myfunctions.vim
