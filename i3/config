@@ -41,6 +41,9 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # ajust brightness
 #bindsym XF86MonBrightnessDown exec 
 
+# open calculator
+bindsym XF86Calculator exec gnome-calculator
+
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl play-pause
