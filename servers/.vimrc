@@ -1,0 +1,219 @@
+" ================================================================
+" Fichier de configuration portable pour utilisation à travers SSH
+" ================================================================
+
+if filereadable("/usr/share/vim/vimrc")
+    source /usr/share/vim/vimrc
+endif
+
+set nocompatible
+
+" store swapfiles in a specific directory
+call system("mkdir -p $HOME/.vim/swap && chmod 700 $HOME/.vim/swap")
+set dir=$HOME/.vim/swap//
+
+set enc=utf-8
+set expandtab sw=4 ts=4
+set incsearch ignorecase smartcase hlsearch
+set listchars=tab:\ \ ,trail:\ ,extends:>,precedes:<,nbsp:.
+set list
+set mouse= " facilite le copier-coller pour les newcomers
+set mousemodel=popup
+set backspace=indent,eol,start
+set nocin noai nosi
+filetype plugin indent on
+
+" syntax with performance tips
+syntax on
+syn sync minlines=256
+syn sync maxlines=512
+au BufWinEnter * if line2byte(line("$") + 1) > 1000000 | syntax clear | endif
+
+" set synmaxcol=256 " fait planter la coloration des lignes suivantes
+set nocursorline
+set nocursorcolumn
+set number
+
+" highlight non ascii, suspect characters
+au VimEnter,BufWinEnter * syn match ErrorMsg '[^\x00-\x7F€àÀâÂéÉèÈêÊëËîÎïÏôÔöÖûÛùÙüÜçÇœŒæÆ]'
+
+" minimal foldcolumn if vimdiff
+au FilterWritePre * if &diff | set fdc=1 | endif
+
+
+" =================================
+" Statusline personnalisee (deluxe)
+" =================================
+if has('statusline')
+    set statusline=[%n]\ %<%F\ \ %=%-19(\LINE\ %3l[%02c%03V]/%3L%)\ %{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\"}\ %P
+    set laststatus=2 " Statusline on all windows
+    set ruler " Where am I
+    set ch=4 " Make command line two lines high
+    set shm="aAI" " What will be shown on the commandline
+    set showcmd " show partial commands in status line and selected characters/lines in visual mode
+endif
+
+" ====================
+" Touche TAB améliorée
+" ====================
+" decalage en mode visuel
+vmap <TAB> >gv
+vmap <S-TAB> <gv
+" ouvrir un nouvel onglet
+map <C-T> :tabnew<CR><ESC>:edit .<CR>
+" ouvrir les tags dans un nouveal onglet
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+" ouvre le fichier sous le curseur dans un nouvel onglet
+map gf :tabnew <cfile><CR>
+let g:netrw_browse_split=3 " ouvre les fichiers de netrw dans un nouvel onglet
+
+" navigue entre les onglets
+map <F2> gt
+map <F1> gT
+imap <F2> <ESC>gt
+imap <F1> <ESC>gT
+
+" source: https://github.com/sd65/MiniVim/blob/master/vimrc
+" :W - To write with root rights.
+command! SudoW :execute ':silent w !sudo tee % > /dev/null' | :edit!
+" :UndoCloseTab - To undo close tab
+command! UndoCloseTab call OpenLastBufferInNewTab()
+function! OpenLastBufferInNewTab()
+    redir => ls_output
+    silent exec 'ls'
+    redir END
+    let ListBuffers = reverse(split(ls_output, "\n"))
+    for line in ListBuffers
+      let title = split(line, "\"")[1]
+      if title !~  "\[No Name"
+        execute "tabnew +" . split(line, " ")[0] . "buf"
+        break
+      endif
+    endfor
+endfunction
+" fix common bad encoded characters
+
+func! FixCommonEncoding(mode) range
+    :set ff=unix
+    if (a:mode == 'visual')
+        :exe "'<,'>/è/è/g"
+        :exe "'<,'>/é/é/g"
+        :exe "'<,'>/ê/ê/g"
+    else
+        :exe "%s/è/è/g"
+        :exe "%s/é/é/g"
+        :exe "%s/ê/ê/g"
+    endif
+endfunc
+"noremap <c-b> :call PHPAutoIndent('normal')<CR> " TODO: find key binding
+"vnoremap <c-b> :call PHPAutoIndent('visual')<CR> " TODO: find key binding
+
+" format JSON code
+command! -range -nargs=0 -bar IndentJSON <line1>,<line2>!python -m json.tool
+" format HTML code
+command! -range -nargs=0 -bar IndentHTML <line1>,<line2>!tidy -q -f /dev/null -o /dev/stdout -w 0 -i --indent-spaces 2 -asxml 2> /dev/null
+" F3 - Line numbers toggle
+map <F3> :set nonumber!<Enter>
+imap <F3> :set nonumber!<Enter>
+map <S-F3> :set relativenumber!<Enter>
+imap <S-F3> :set relativenonumber!<Enter>
+" F12 - Paste from clipboard (makes paste toggle useless)
+map <F12> "*P
+imap <F12> <Esc>"*pa
+" F11 - Paste from 'q' named clipboard (so you can delete, change, etc... without overwriting your clipboard)
+map <F11> "qP
+imap <F11> <Esc>"qpa
+
+" colorscheme
+" terminal/gui equivalent colorscheme, based on slate
+set background=dark
+highlight clear
+
+if exists("syntax_on")
+  syntax reset
+endif
+
+set t_Co=256
+" let g:colors_name = "sbash"
+let macvim_skip_colorscheme=1
+hi Normal ctermbg=235 guibg=#262626 ctermfg=15 guifg=#ffffff
+
+" TODO
+hi Cursor ctermbg=9 guibg=#ff0000
+
+hi VertSplit guibg=#808080 guifg=#808080 ctermbg=244 ctermfg=244
+hi Folded guibg=#c0c0c0 guifg=#000000 ctermfg=0 ctermbg=7 cterm=bold gui=bold
+hi FoldColumn guibg=#c0c0c0 guifg=#000000 ctermfg=0 ctermbg=7
+hi IncSearch guifg=#ffff00 guibg=#000000 cterm=reverse,bold ctermfg=11 ctermbg=0
+
+hi ModeMsg guifg=#00d75f ctermfg=41
+hi MoreMsg guifg=#008000 ctermfg=2
+" highlight NonText cterm=underline gui=underline ctermbg=darkblue guibg=darkblue ctermfg=blue guifg=blue
+hi NonText guifg=#0000ff guibg=#000000 cterm=bold ctermfg=12
+hi Question guifg=#00ff00 ctermfg=10
+hi Search guibg=#000000 guifg=#ffff00 gui=reverse cterm=reverse ctermfg=11 ctermbg=0
+
+" TODO
+hi SpecialKey term=none cterm=underline gui=underline ctermbg=0 ctermfg=17 guibg=#000000 guifg=#00005f
+
+hi Title cterm=bold gui=bold ctermfg=13 guifg=#ff00ff
+hi Underlined cterm=underline gui=underline ctermfg=5 guifg=#B000B0
+hi Statement guifg=#00d75f ctermfg=41 cterm=bold gui=bold
+hi Visual gui=none guifg=#000000 cterm=reverse ctermbg=0
+hi WarningMsg guifg=#af0000 ctermfg=1
+hi String guifg=#bcbcbc ctermfg=250 guibg=#121212 ctermbg=233
+hi Comment ctermfg=244 guifg=#808080
+hi phpDocTags cterm=bold gui=bold ctermfg=244 guifg=#808080 ctermbg=0 guibg=#000000
+hi Constant guifg=#ff8787 ctermfg=210 gui=bold cterm=bold
+hi Special guifg=#B0B000 ctermfg=3 cterm=none gui=none
+hi Number ctermfg=210 guifg=#ff8787 gui=none cterm=none
+hi Identifier guifg=#00afff ctermfg=39
+hi Include guifg=#ff0000 ctermfg=9
+hi PreProc guifg=#d70000 ctermfg=160
+hi Operator guifg=#ff5f5f ctermfg=203 gui=bold cterm=bold
+hi Define guifg=#00afaf ctermfg=37 gui=bold cterm=bold
+hi Type guifg=#5fafff ctermfg=75 gui=none cterm=none
+hi Function guifg=#00d7ff ctermfg=45
+hi Structure guifg=#5f5fff ctermfg=63
+hi LineNr guifg=#808000 ctermfg=3
+
+" TODO
+hi Ignore guifg=grey40 cterm=bold ctermfg=7
+
+hi Todo ctermbg=2 ctermfg=10 guibg=#008000 guifg=#00ff00
+hi Directory guifg=#008080 ctermfg=6
+
+hi ErrorMsg guifg=#ffffff guibg=#af0000 gui=bold cterm=bold ctermfg=15 ctermbg=1
+
+hi ColorColumn guibg=#2e2e2e ctermbg=236
+
+" TODO
+hi VisualNOS cterm=bold,underline
+
+hi WildMenu ctermfg=0 ctermbg=3
+hi DiffAdd cterm=none ctermbg=22 gui=none guibg=#264426
+hi DiffChange cterm=none ctermbg=240  gui=none guibg=#3a3a3a
+hi DiffDelete cterm=none ctermfg=235 ctermbg=0  gui=none guifg=#262626 guibg=#000000
+hi DiffText cterm=bold ctermbg=52 gui=none guibg=DarkRed
+hi ExtraWhiteSpace cterm=none gui=none ctermfg=0 guifg=#000000 ctermbg=52 guibg=#550000
+
+" change statusline according to insert mode
+function! InsertStatuslineColor(mode)
+  if a:mode == 'i'
+    hi statusline guibg=#ff8787 guifg=#000000 ctermbg=0 ctermfg=210 gui=bold cterm=bold,reverse
+  elseif a:mode == 'r'
+    hi statusline guibg=#00afaf guifg=#000000 ctermbg=0 ctermfg=6 gui=bold cterm=bold,reverse
+  else
+    hi statusline guibg=#c0c0c0 guifg=#000000 ctermbg=0 ctermfg=7 gui=bold cterm=bold,reverse
+  endif
+endfunction
+au InsertEnter * call InsertStatuslineColor(v:insertmode)
+au InsertChange * call InsertStatuslineColor(v:insertmode)
+au InsertLeave * hi statusline guibg=#c0c0c0 guifg=#000000 ctermbg=0 ctermfg=7 gui=bold cterm=bold,reverse
+
+" default statusline when entering Vim
+hi statusline guibg=#c0c0c0 guifg=#000000 ctermbg=0 ctermfg=7 gui=bold cterm=bold,reverse
+hi StatusLineNC guibg=#b2b2b2 guifg=#000000 ctermbg=0 ctermfg=249 gui=none cterm=reverse
+
+
+

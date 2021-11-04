@@ -1,0 +1,9 @@
+#!/bin/bash
+if [ $# -eq 0 ]; then
+    echo 'il faut spécifier un serveur'
+    exit 0
+fi
+echo $1
+
+scp .vimrc $1:~/
+scp .bash_aliases $1:~/ 
