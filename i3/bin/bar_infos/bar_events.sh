@@ -24,6 +24,7 @@ do
   
   # EPIC
     elif [[ $line == *"name"*"id_epic"* ]]; then
+        alacritty -e ~/.config/i3status/epic_add_game.sh &
         xdg-open https://www.epicgames.com/store/fr/free-games > /dev/null &
 
   # KICKSTARTER
