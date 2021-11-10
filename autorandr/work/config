@@ -19,7 +19,7 @@ pos 0x0
 primary
 rate 59.95
 output eDP-1
-crtc 2
+crtc 1
 mode 1920x1080
-pos 2560x260
+pos 2560x180
 rate 60.01
