@@ -29,7 +29,7 @@ do
 
   # KICKSTARTER
     elif [[ $line == *"name"*"id_kickstarter"* ]]; then
-        f="${HOME}/.dotfiles/i3/bin/bar_infos/kickstarter_projects.txt"
+        f="${HOME}/.dotfiles/i3_infos/kickstarter_projects.txt"
         if [[ -s $f ]]; then
             alacritty --hold -e ~/.config/i3status/click_kickstarter.sh &
         fi

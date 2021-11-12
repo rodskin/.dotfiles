@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
+import os
 from epicstore_api import EpicGamesStoreAPI, OfferData
 
 api = EpicGamesStoreAPI()
 free = api.get_free_games()
 game_name = ''
 dictionary = {}
+epic_list = os.path.join( os.path.expanduser( '~' ), '.dotfiles/i3_infos/epic_list.txt' )
 
-with open("/home/fgilles/.dotfiles/i3status/epic_list.txt") as file:
+with open(epic_list) as file:
  for line in file:
  
     dictionary[line.strip()] = ''#value.strip()

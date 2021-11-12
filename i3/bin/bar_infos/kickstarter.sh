@@ -3,7 +3,7 @@ mykickstarter() {
   local bg=$bg_inactive
   local icon=$icon_kickstarter
   local icon_color=$color_inactive
-  f="${HOME}/.dotfiles/i3/bin/bar_infos/kickstarter_projects.txt"
+  f="${HOME}/.dotfiles/i3_infos/kickstarter_projects.txt"
   if [[ -s $f ]]; then
     bg=$bg_kickstarter
     icon_color=$color_kickstarter
