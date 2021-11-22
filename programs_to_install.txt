@@ -1,4 +1,5 @@
 gcalcli
+feh
 dmenu
 zsh
 tmux
@@ -15,3 +16,4 @@ filezilla
 alacritty
 wireguard
 libreoffice
+transmission

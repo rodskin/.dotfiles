@@ -8,6 +8,6 @@ for free_data in free['data']['Catalog']['searchStore']['elements']:
     if type(free_data['promotions']) is dict:
         if len(free_data['promotions']['promotionalOffers']) == 1:
             game_name = free_data['title']
-            print(game_name, end='')
+            print(free_data, end='')
             quit()
 
