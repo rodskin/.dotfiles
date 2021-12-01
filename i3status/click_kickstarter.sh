@@ -1,6 +1,6 @@
 #!/bin/bash
 
-f="${HOME}/.dotfiles/i3_infos/kickstarter_projects.txt"
+f="${HOME}/.dotfiles/i3_infos/kickstarter_projects.csv"
 if [[ -s "$f" ]]; then
-    cat "$f"
+    cat "$f" | column -t -s, | less -S
 fi

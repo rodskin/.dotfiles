@@ -272,6 +272,11 @@ EOF
     unset SBASH_SUFFIX
 }
 
+function pretty_csv ()
+{
+    column -t -s, -n "$@" | less -F -S -X -K
+}
+
 rpg () {
     rpg-cli "$@"
     cd "$(rpg-cli pwd)"
