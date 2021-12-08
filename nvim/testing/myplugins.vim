@@ -1,4 +1,4 @@
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/plugged_testing')
 Plug 'rking/ag.vim'
 Plug 'sjl/gundo.vim'
 Plug 'sjl/badwolf', { 'as': 'badwolf' }
@@ -34,6 +34,10 @@ Plug 'vim-php/phpctags'
 Plug 'phpactor/ncm2-phpactor'
 Plug 'rayburgemeestre/phpfolding.vim'
 Plug 'preservim/tagbar'
+
+
+" USAGE
+"Plug 'frazrepo/vim-rainbow'
 
 " Require ncm2 and this plugin
 Plug 'ncm2/ncm2'
