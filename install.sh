@@ -8,16 +8,20 @@ echo -e "${green}************************************************${default}"
 while read in
 do  
     dot_mes_install ${in}
-    #echo -e "${yellow} INSTALLATION DE ${in}:${default}"
     sudo apt install -y "$in"
 done < programs_to_install.txt
 
 while read in
 do  
     dot_mes_install ${in}
-    #echo -e "${yellow} INSTALLATION DE ${in}:${default}"
     sudo snap install "$in"
 done < snaps_install.txt
+
+while read in
+do  
+    dot_mes_install ${in}
+    sudo "$in"
+done < externals_install.txt
 
 for f in scripts_install/*.sh ; do source $f ; done
 

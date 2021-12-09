@@ -17,3 +17,4 @@ alacritty
 wireguard
 libreoffice
 transmission
+taskwarrior
