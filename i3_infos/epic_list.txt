@@ -11,3 +11,5 @@ theHunter: Call of the Wild™
 Antstream - Epic Welcome Pack
 while True: learn()
 Dead by Daylight
+Godfall Challenger Edition
+Prison Architect
