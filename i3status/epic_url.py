@@ -18,7 +18,8 @@ for free_data in free['data']['Catalog']['searchStore']['elements']:
         if len(free_data['promotions']['promotionalOffers']) == 1:
             game_name = free_data['title']
             game_url = free_data['urlSlug']
+            game_slug = free_data['productSlug']
             if game_name not in dictionary:
-                print(game_url, end='')
+                print(game_slug, end='')
                 quit()
 

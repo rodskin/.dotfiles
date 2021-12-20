@@ -35,7 +35,7 @@ Plug 'powerline/fonts'
 "Plug 'vim-php/phpctags'
 "Plug 'phpactor/ncm2-phpactor'
 "Plug 'rayburgemeestre/phpfolding.vim'
-"Plug 'preservim/tagbar'
+Plug 'preservim/tagbar'
 
 
 " USAGE

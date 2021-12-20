@@ -13,3 +13,7 @@ while True: learn()
 Dead by Daylight
 Godfall Challenger Edition
 Prison Architect
+Void Bastards
+Shenmue III
+Neon Abyss
+The Vanishing of Ethan Carter
