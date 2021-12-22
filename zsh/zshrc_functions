@@ -277,6 +277,13 @@ function pretty_csv ()
     column -t -s, -n "$@" | less -F -S -X -K
 }
 
+function auth_pwd ()
+{
+    PASSWORD=`pwgen -y1 24`
+    GENERATED=`php -r "echo password_hash('${PASSWORD}', PASSWORD_BCRYPT);"`
+    echo "$PASSWORD => ${GENERATED}"
+}
+
 rpg () {
     rpg-cli "$@"
     cd "$(rpg-cli pwd)"

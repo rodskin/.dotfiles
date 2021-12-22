@@ -1,3 +1,2 @@
 postman
 music-radar
-discord
