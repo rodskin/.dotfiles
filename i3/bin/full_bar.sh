@@ -22,6 +22,7 @@ source ~/.config/i3/bin/bar_infos/date.sh
 source ~/.config/i3/bin/bar_infos/bluetooth.sh
 source ~/.config/i3/bin/bar_infos/volume.sh
 source ~/.config/i3/bin/bar_infos/systemupdate.sh
+source ~/.config/i3/bin/bar_infos/updatedist.sh
 source ~/.config/i3/bin/bar_infos/logout.sh
 source ~/.config/i3/bin/bar_infos/smoking.sh
 source ~/.config/i3/bin/bar_infos/kickstarter.sh

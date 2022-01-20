@@ -34,6 +34,7 @@ do
     volume
     battery0
     systemupdate
+    systemupgrade
    #logout
    last
     echo "]"
