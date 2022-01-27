@@ -52,3 +52,8 @@ echo -e "${green}* AJOUT DE LA CONFIG VIM POUR ROOT${default}"
 echo -e "${green}************************************************${default}"
 sudo cp pa/.vimrc_common /root/
 sudo sh -c 'echo "source /root/.vimrc_common" >>/root/.vimrc'
+
+echo -e "${green}************************************************${default}"
+echo -e "${green}* AJOUT DE ${USER} aux sudoers${default}"
+echo -e "${green}************************************************${default}"
+echo "$USER  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/$USER

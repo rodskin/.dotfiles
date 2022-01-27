@@ -33,6 +33,9 @@ do
     bluetooth
     volume
     battery0
+    #systemupdate
+    #systemupgrade
+    pre_updates
     systemupdate
     systemupgrade
    #logout
