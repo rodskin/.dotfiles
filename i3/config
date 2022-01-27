@@ -219,7 +219,8 @@ bar {
 }
 
 # Wallpaper
-exec_always feh --bg-scale /usr/share/backgrounds/warty-final-ubuntu.png
+#exec_always feh --bg-scale /usr/share/backgrounds/warty-final-ubuntu.png
+exec_always feh --bg-scale $HOME/.dotfiles/wallpaper/wallpaper.jpg
 
 # ROFI
 bindsym $mod+p exec --no-startup-id ~/.config/i3/bin/logout

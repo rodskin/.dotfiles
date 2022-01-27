@@ -21,3 +21,4 @@ taskwarrior
 jq
 pwgen
 imagemagick
+mariadb-client
