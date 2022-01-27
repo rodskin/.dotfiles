@@ -7,7 +7,6 @@ i3
 nvim
 vim
 gimp
-git
 mycli
 playerctl
 autorandr
