@@ -289,6 +289,15 @@ function key_steam ()
     echo "https://store.steampowered.com/account/registerkey"
 }
 
+function getwifi ()
+{
+    if [ $# -eq 0 ]; then
+        ls /etc/NetworkManager/system-connections/
+    else
+        sudo cat /etc/NetworkManager/system-connections/"$1" | grep psk=
+    fi
+}
+
 rpg () {
     rpg-cli "$@"
     cd "$(rpg-cli pwd)"

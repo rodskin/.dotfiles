@@ -107,5 +107,11 @@ autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
 " Copy all file
 nnoremap <leader>f :call CopyAll()<CR>
 
+" Add Dockerfile-dev with bash
+augroup filetypedetect
+    au BufRead,BufNewFile Dockerfile-dev setfiletype dockerfile
+    " associate *.foo with php filetype
+augroup END
+
 "source ~/.config/nvim/hardmode.vim
 source ~/.config/nvim/legacy/myfunctions.vim
