@@ -17,3 +17,7 @@ endfunc
 function! CopyAll()
     :%y+
 endfunc
+
+function! OpenTerm()
+    :vsplit term://bash
+endfunc
