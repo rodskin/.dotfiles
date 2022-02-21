@@ -18,6 +18,10 @@ function! CopyAll()
     :%y+
 endfunc
 
-function! OpenTerm()
+function! OpenHTerm()
+    :split term://bash
+endfunc
+
+function! OpenVTerm()
     :vsplit term://bash
 endfunc

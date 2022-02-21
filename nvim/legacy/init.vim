@@ -106,7 +106,8 @@ autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
 
 " Copy all file
 nnoremap <leader>f :call CopyAll()<CR>
-nnoremap <leader>t :call OpenTerm()<CR>
+nnoremap <leader>t :call OpenVTerm()<CR>
+nnoremap <leader>T :call OpenHTerm()<CR>
 
 " Add Dockerfile-dev with bash
 augroup filetypedetect
