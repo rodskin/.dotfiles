@@ -46,7 +46,8 @@ Plug 'preservim/tagbar'
 "Plug 'roxma/nvim-yarp'
 
 " Whiteroom pour avoir le script en full screen
-Plug 'vim-scripts/DistractFree'
+"Plug 'vim-scripts/DistractFree'
+Plug 'junegunn/goyo.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'stephpy/vim-php-cs-fixer'

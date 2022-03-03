@@ -32,7 +32,7 @@ let g:NERDTreeShowHidden=1
 nmap <F8> :TagbarToggle<CR>
 
 " Whiteroom
-nmap <F5> :DistractFreeToggle<CR>
+nmap <F5> :Goyo<CR>:set nu<CR>
 
 " no more *.swap files
 set nobackup
