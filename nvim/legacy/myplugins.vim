@@ -51,4 +51,14 @@ Plug 'junegunn/goyo.vim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'stephpy/vim-php-cs-fixer'
+
+
+" DATABASE
+" Plug 'lighttiger2505/sqls.vim'
+"Plug 'nanotee/sqls.nvim'
+"Plug 'prabirshrestha/vim-lsp'
+"Plug 'neovim/nvim-lspconfig'
+"Plug 'williamboman/nvim-lsp-installer'
+"Plug 'jobo3208/nvim-mysql'
+Plug 'vim-scripts/dbext.vim'
 call plug#end()

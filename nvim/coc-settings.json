@@ -1,4 +1,4 @@
 {
-  "intelephense.licenseKey": "00DLORB8LH13XNO",
-  "php-cs-fixer.rules": "@PSR12,ordered_imports,no_unused_imports"
+    "intelephense.licenseKey": "00DLORB8LH13XNO",
+    "php-cs-fixer.rules": "@PSR12,ordered_imports,no_unused_imports"
 }

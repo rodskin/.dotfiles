@@ -105,6 +105,7 @@ let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
 "au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
 "
 source ~/.config/nvim/legacy/mycoc.vim
+source ~/.config/nvim/legacy/mydatabases.vim
 
 nnoremap <silent><leader>pcf :call PhpCsFixerFixFile()<CR>
 let g:php_cs_fixer_rules = "@PSR2"

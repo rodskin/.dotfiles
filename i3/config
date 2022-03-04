@@ -167,7 +167,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -227,4 +227,10 @@ bindsym $mod+p exec --no-startup-id ~/.config/i3/bin/logout
 bindsym $mod+Shift+f exec --no-startup-id ~/.config/i3/bin/rofifinder
 #bindsym $mod+[ exec --no-startup-id ~/.config/i3/bin/punker_connect
 #bindsym $mod+] exec --no-startup-id ~/.config/i3/bin/punker_disconnect
+for_window [class="Arandr"] floating enable
+for_window [class="Gnome-control-center"] floating enable
+# floating pop up automatically
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+hide_edge_borders both
 
