@@ -12,6 +12,7 @@ if [[ "$(ls --version >/dev/null 2>&1 && echo '1' || echo '0')" == "1" ]]; then
 else
     alias ll="ls -alhG "
 fi
+alias l="ls -lh --color=auto --group-directories-first "
 NICECMD="nice"
 if [ "$(which ionice 2>/dev/null)" != "" ]; then
     NICECMD="ionice -c 3 $NICECMD"
