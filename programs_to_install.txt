@@ -18,6 +18,7 @@ libreoffice
 transmission
 taskwarrior
 jq
+jc
 pwgen
 imagemagick
 mariadb-client
