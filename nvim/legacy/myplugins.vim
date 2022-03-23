@@ -1,5 +1,4 @@
 call plug#begin('~/.vim/plugged')
-Plug 'rking/ag.vim'
 Plug 'sjl/gundo.vim'
 "Plug 'sjl/badwolf', { 'as': 'badwolf' }
 Plug 'kien/ctrlp.vim'

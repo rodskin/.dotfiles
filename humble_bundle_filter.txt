@@ -1,0 +1,19 @@
+=SORT({ 
+FILTER('December 2019'!A1:A ; LEN('December 2019'!A1:A) > 0);
+FILTER('January 2020'!A1:A ; LEN('January 2020'!A1:A) > 0);
+FILTER('February 2020'!A1:A ; LEN('February 2020'!A1:A) > 0);
+FILTER('March 2020'!A1:A ; LEN('March 2020'!A1:A) > 0);
+FILTER('April 2020'!A1:A ; LEN('April 2020'!A1:A) > 0);
+FILTER('May 2020'!A1:A ; LEN('May 2020'!A1:A) > 0);
+FILTER('June 2020'!A1:A ; LEN('June 2020'!A1:A) > 0);
+FILTER('July 2020'!A1:A ; LEN('July 2020'!A1:A) > 0);
+FILTER('August 2020'!A1:A ; LEN('August 2020'!A1:A) > 0);
+FILTER('November 2020'!A1:A ; LEN('November 2020'!A1:A) > 0);
+FILTER('February 2021'!A1:A ; LEN('February 2021'!A1:A) > 0);
+FILTER('March 2021'!A1:A ; LEN('March 2021'!A1:A) > 0);
+FILTER('May 2021'!A1:A ; LEN('May 2021'!A1:A) > 0);
+FILTER('December 2021'!A1:A ; LEN('December 2021'!A1:A) > 0);
+FILTER('March 2022'!A1:A ; LEN('March 2022'!A1:A) > 0);
+FILTER('Stand Alone'!A1:A ; LEN('Stand Alone'!A1:A) > 0);
+FILTER(Ukraine!A1:A ; LEN(Ukraine!A1:A) > 0)
+};1;true)

@@ -1,4 +1,6 @@
 alias ubins="sudo apt install"
 alias ubupd="sudo apt update"
-alias ubupg="sudo apt-get upgrade"
-alias ubdupg="sudo apt-get upgrade --dry-run"
+alias ubupg="sudo apt upgrade"
+alias ubdupg="sudo apt upgrade --dry-run"
+alias ubcc="sudo apt autoclean && sudo apt autoremove"
+alias ubdr="sudo do-release-upgrade"
