@@ -2,7 +2,7 @@
 source ~/.dotfiles/colors.sh
 ASPELL=$(which aspell)
 if [ $? -ne 0 ]; then
-    echo "Aspell not installed - unable to check spelling" >&2
+    echo -e "${red}Aspell not installed - unable to check spelling${default}" >&2
     exit
 else
     WORDS=$($ASPELL list < "$1")
