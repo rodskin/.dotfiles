@@ -16,3 +16,4 @@
 	email = fgilles@corp.free.fr
 [core]
 	excludesfile = ~/.dotfiles/git/.gitignore
+	hooksPath = ~/.dotfiles/git/hooks

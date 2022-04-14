@@ -22,4 +22,16 @@ jc
 pwgen
 imagemagick
 mariadb-client
+pulseaudio-utils
 rofi
+
+
+fonts-font-awesome 
+xbacklight
+alsa-tools 
+locate
+pcmanfm
+acpi
+libnotify-bin
+i3blocks
+htop
