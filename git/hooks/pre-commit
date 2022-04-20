@@ -1,15 +1,62 @@
 #!/bin/bash
-source ~/.dotfiles/colors.sh
-git diff --cached --name-only | while read FILE; do
-    # check des erreurs en PHP
-    if [[ "$FILE" =~ ^.+(php|inc|module|install|test)$ ]]; then
-        # Courtesy of swytsh from the comments below.
-        if [[ -f $FILE ]]; then
-            php -l "$FILE" 1> /dev/null
-            if [ $? -ne 0 ]; then
-                echo -e "${red}\tAborting commit due to files with syntax errors.${default}" >&2
-                exit 1
-            fi
-        fi
-    fi
-done || exit $?
+
+STANDARD="PSR12"
+BIN="/bin"
+
+
+echo
+echo "PHP_CodeSniffer pre-commit hook – commit with the --no-verify option to skip the hook"
+echo
+
+# Check whether PHP_CodeSniffer can be found
+if [ ! -f "/bin/phpcs" ]
+then
+    echo "PHP_CodeSniffer not found – is it installed? 'composer require --dev squizlabs/php_codesniffer'"
+    echo
+    exit 1
+fi
+
+# Retrieve staged files
+FILES=$(git diff --cached --name-only --diff-filter=ACMR HEAD)
+
+# Run the sniffer
+echo "Running PHP_CodeSniffer using the $STANDARD standard"
+echo
+PHPCS=("/bin/phpcs" "--standard=$STANDARD" "--filter=GitStaged" "--encoding=utf-8" "-p" ".")
+"${PHPCS[@]}"
+
+# Syntax OK
+if [ $? == 0 ]
+then
+    echo "No violations detected"
+    echo
+    exit 0
+fi
+
+# Fix automatically?
+read -p "Automatically fix violations when possible? [Y/n]: " < /dev/tty
+if [[ ! ("$REPLY" == 'y' || "$REPLY" == 'Y' || "$REPLY" == '') ]]
+then
+    echo
+    exit 1
+fi
+
+# Run the beautifier
+PHPCBF=("/bin/phpcbf" "--standard=$STANDARD" "--filter=GitStaged" ".")
+"${PHPCBF[@]}"
+
+# Stage the files
+echo "Re-staging updated files"
+echo
+git add ${FILES}
+
+# Run the sniffer again
+"${PHPCS[@]}"
+
+# Some violations remain
+if [ $? != 0 ]
+then
+    echo "PHP_CodeSniffer was not able to fix all of the violations, please fix the remaining ones manually or commit with the --no-verify option"
+    echo
+    exit 1
+fi

@@ -2,3 +2,4 @@ zsh/zshrc_aliases_private
 **/kickstarter_projects.txt
 privates/
 nvim/pw.txt
+git/composer.lock
