@@ -3,3 +3,4 @@ zsh/zshrc_aliases_private
 privates/
 nvim/pw.txt
 git/composer.lock
+git/vendor/*
