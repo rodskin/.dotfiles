@@ -1,62 +1,30 @@
 #!/bin/bash
+source ~/.dotfiles/colors.sh
 
 STANDARD="PSR12"
 BIN="/bin"
+HOOK_SCRIPTS="~/.dotfiles/git/hooks/hook_scripts"
 
+# If any command fails, exit immediately with that command's exit status
+set -eo pipefail
 
-echo
-echo "PHP_CodeSniffer pre-commit hook – commit with the --no-verify option to skip the hook"
-echo
+# Find all changed files for this commit
+# Compute the diff only once to save a small amount of time.
+CHANGED_FILES=$(git diff --name-only --cached --diff-filter=ACMR)
+# Get only changed files that match our file suffix pattern
+get_pattern_files() {
+    pattern=$(echo "$*" | sed "s/ /\$\\\|/g")
+    echo "$CHANGED_FILES" | { grep "$pattern$" || true; }
+}
 
-# Check whether PHP_CodeSniffer can be found
-if [ ! -f "/bin/phpcs" ]
-then
-    echo "PHP_CodeSniffer not found – is it installed? 'composer require --dev squizlabs/php_codesniffer'"
-    echo
-    exit 1
+# Get all changed python files
+PY_FILES=$(get_pattern_files .py)
+if [[ -n "$PY_FILES" ]]; then
+    source "$HOOK_SCRIPTS/python_validation"
 fi
 
-# Retrieve staged files
-FILES=$(git diff --cached --name-only --diff-filter=ACMR HEAD)
-
-# Run the sniffer
-echo "Running PHP_CodeSniffer using the $STANDARD standard"
-echo
-PHPCS=("/bin/phpcs" "--standard=$STANDARD" "--filter=GitStaged" "--encoding=utf-8" "-p" ".")
-"${PHPCS[@]}"
-
-# Syntax OK
-if [ $? == 0 ]
-then
-    echo "No violations detected"
-    echo
-    exit 0
-fi
-
-# Fix automatically?
-read -p "Automatically fix violations when possible? [Y/n]: " < /dev/tty
-if [[ ! ("$REPLY" == 'y' || "$REPLY" == 'Y' || "$REPLY" == '') ]]
-then
-    echo
-    exit 1
-fi
-
-# Run the beautifier
-PHPCBF=("/bin/phpcbf" "--standard=$STANDARD" "--filter=GitStaged" ".")
-"${PHPCBF[@]}"
-
-# Stage the files
-echo "Re-staging updated files"
-echo
-git add ${FILES}
-
-# Run the sniffer again
-"${PHPCS[@]}"
-
-# Some violations remain
-if [ $? != 0 ]
-then
-    echo "PHP_CodeSniffer was not able to fix all of the violations, please fix the remaining ones manually or commit with the --no-verify option"
-    echo
-    exit 1
+# Get all changed php files
+PHP_FILES=$(get_pattern_files .php)
+if [[ -n "$PHP_FILES" ]]; then
+    source "$HOOK_SCRIPTS/php_validation"
 fi

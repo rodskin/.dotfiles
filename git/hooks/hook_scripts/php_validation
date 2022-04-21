@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# @TODO:
+# ajouter un check dans les codes de:
+#   - todo
+#   - die
+#   - print_r
+#   - var_dump
+#   - /home/
+
+echo
+echo -e "${green}PHP_CodeSniffer pre-commit hook – commit with the --no-verify option to skip the hook${default}"
+echo
+
+echo -e "${yellow}Check for forbidden words in file${default}"
+regex="\s+(todo|die|print_r|var_dump|\/home\/|~\/)\s+"
+for FILE in $PHP_FILES; do
+    file_content=$( cat "${FILE}" )
+    if [[ " $file_content " =~ $regex ]]; then
+        echo -e "    ${red}$FILE: Forbidden strings${default}"
+    fi
+done
+
+# Check whether PHP_CodeSniffer can be found
+if [ ! -f "$BIN/phpcs" ]
+then
+    echo -e "${red}PHP_CodeSniffer not found – is it installed? 'composer require --dev squizlabs/php_codesniffer'${default}"
+    echo
+    exit 1
+fi
+
+# Run the sniffer
+echo -e "${yellow}Running PHP_CodeSniffer using the $STANDARD standard${default}"
+echo
+PHPCS=("$BIN/phpcs" "--standard=$STANDARD" "--filter=GitStaged" "--encoding=utf-8" "-p" ".")
+"${PHPCS[@]}"
+
+# Syntax OK
+if [ $? == 0 ]
+then
+    echo -e "    ${green}No violations detected${default}"
+    echo
+    exit 0
+fi
+
+# Fix automatically?
+read -p "Automatically fix violations when possible? [Y/n]: " < /dev/tty
+if [[ ! ("$REPLY" == 'y' || "$REPLY" == 'Y' || "$REPLY" == '') ]]
+then
+    echo
+    exit 1
+fi
+
+# Run the beautifier
+PHPCBF=("$BIN/phpcbf" "--standard=$STANDARD" "--filter=GitStaged" ".")
+"${PHPCBF[@]}"
+
+# Stage the files
+echo -e "    ${yellow}Re-staging updated files${default}"
+echo
+git add ${PHP_FILES}
+
+# Run the sniffer again
+"${PHPCS[@]}"
+
+# Some violations remain
+if [ $? != 0 ]
+then
+    echo -e "    ${red}PHP_CodeSniffer was not able to fix all of the violations, please fix the remaining ones manually or commit with the --no-verify option${default}"
+    echo
+    exit 1
+fi
